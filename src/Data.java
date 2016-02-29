@@ -44,8 +44,21 @@ class Data {
 	String[] lineData;
 	String line = fileIn.readLine();
 	while(line != null) {
+	  lineData = new String[13];
+	  for(int i = 0; i < 13; i++ ) {
+	    lineData[i] = "";
+	  }
+	  for(int i = 0; i <line.split(",",0).length; i++ ) {
+	    lineData[i]= line.split(",",0)[i];
+	  }
+	  System.out.println(line);
 	  
-	  fileLines.add(line.split(",", 0));
+	  //lineData = line.split(",");
+	  
+	 // System.out.println(lineData[0]+lineData[1]+lineData[2]+lineData[3]+lineData[4]+lineData[5]+lineData[6]+lineData[7]+lineData[8]+lineData[9]+lineData[10]+lineData[11]+lineData[12]);
+	  if( !lineData[4].equals("") ||  !lineData[7].equals("") ) {
+	    fileLines.add(lineData);
+	  }
 	  line = fileIn.readLine();
 	}
 	

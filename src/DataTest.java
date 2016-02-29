@@ -17,7 +17,7 @@ public class DataTest {
     Data lines = new Data(inputFile);
     lines.loadData();
     lines.printFile();
-    
+    // class[] = lines.toClassesArray();
    
   }
 }
