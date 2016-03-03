@@ -1,82 +1,92 @@
-import java.util.ArrayList;
+package cpsc101project;
 
 public class Course {
+	
 	private String courseID;
-	private String componentID;
-	private CourseDate dates;
-	private CourseTime times;
-	private ArrayList<String> daysOfWeek;
-	private Location location;
+	//private String courseName;
+	private String componetId;
+	private String startDate;
+	private String endDate;
+	private String location;
 	private String professorName;
 	
-	public Course(String courseID, String componentID, CourseDate dates, CourseTime times, ArrayList<String> daysOfWeek, Location location, String professorName){
-		setCourseID(courseID);
-		setComponentID(componentID);
-		setDates(dates);
-		setTimes(times);
-		setDaysOfWeek(daysOfWeek);
-		setLocation(location);
-		setProfessorName(professorName);
+	private String timeStart;
+	private int Day;
+	private int Duration;
+	private boolean isForces=false;
+	
+	
+	public String getCouseID(){
+		return this.courseID;
+	}
+	public void setCourseID(String courseId){
+		this. courseID=courseId;
+	}
+	/** public String courseName(){
+		 return this.courseName;
+	 }
+	public void setCourseName(String courseName){
+		this. courseName=courseName;
+	}
+	*/
+	public String getComponetId(){
+		return this.componetId;
+	}
+	public void setComponetId(String componetId){
+		this. componetId= componetId;
+	}
+	public String getStartDate(){
+		return this.startDate;
+	}
+	public void setStartDate(String startDate){
+		this. startDate= startDate;
+	}
+	public String getEndDate(){
+		return this.endDate;
 	}
 	
-	public String toString(){
-		return getCourseID() + " " + getComponentID() + " " + getDates() + " " + getTimes() + " " + getLocation() + " " + getProfessorName();
-	}
-
-	public String getCourseID() {
-		return courseID;
-	}
-
-	public void setCourseID(String courseID) {
-		this.courseID = courseID;
-	}
-
-	public String getComponentID() {
-		return componentID;
-	}
-
-	public void setComponentID(String componentID) {
-		this.componentID = componentID;
-	}
-
-	public CourseDate getDates() {
-		return dates;
-	}
-
-	public void setDates(CourseDate dates) {
-		this.dates = dates;
-	}
-
-	public CourseTime getTimes() {
-		return times;
-	}
-
-	public void setTimes(CourseTime times) {
-		this.times = times;
-	}
-
-	public ArrayList<String> getDaysOfWeek() {
-		return daysOfWeek;
-	}
-
-	public void setDaysOfWeek(ArrayList<String> daysOfWeek) {
-		this.daysOfWeek = daysOfWeek;
-	}
-
-	public Location getLocation() {
-		return location;
-	}
-
-	public void setLocation(Location location) {
-		this.location = location;
-	}
-
-	public String getProfessorName() {
-		return professorName;
-	}
-
-	public void setProfessorName(String professorName) {
-		this.professorName = professorName;
+	public void setEndDate(String ed){
+		this.endDate = ed;
 	}
 	
+	public String getLocation(){
+		return this.location;
+	}
+	public void setLocation(String location){
+		this.location=location;
+	}
+	
+	public String getProfessorName(){
+		return this.professorName;
+	}
+	public void setProfessorName(String p){
+		this.professorName=p;
+	}
+    public String getTimeStart(){
+    	return this.timeStart;
+    }
+    public void setTimeStart(String TS){
+    	this.timeStart=TS;
+    }
+    public int getDay(){
+    	return this.Day;
+    }
+    public void setDay(int day){
+    	this.Day=day;
+    }
+    public int getDuration(){
+    	return this.Duration;
+    }
+    public void setDuration(int d){
+    	this.Duration=d;
+    }
+    public String toString(){
+    	return "CourseID= "+courseID+", componetID"+componetId+", startDate"  
+    			+startDate+", endDate"+endDate+",location"+location+", professor name"
+    			+professorName+",time to start"+timeStart+", Day"+Day+", Duration"
+    			+Duration;
+    			}
+    
+    
+    
 }
