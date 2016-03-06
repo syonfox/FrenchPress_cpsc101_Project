@@ -13,7 +13,7 @@ public class Course {
 	private String timeStart;
 	private int Day;
 	private int Duration;
-	private boolean isForces=false;
+	private boolean isForced=false;
 	
 	
 	public String getCouseID(){
@@ -80,6 +80,17 @@ public class Course {
     public void setDuration(int d){
     	this.Duration=d;
     }
+    public boolean equals(Course course){
+    	if(getLocation().equals(course.getLocation()) && getProfessorName().equals(course.getProfessorName()))
+    		{
+    		return true;
+    		}
+    		return false;
+    	
+    	
+    	
+    }
+   
     public String toString(){
     	return "CourseID= "+courseID+", componetID"+componetId+", startDate"  
     			+startDate+", endDate"+endDate+",location"+location+", professor name"
