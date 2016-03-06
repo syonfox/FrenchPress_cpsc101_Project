@@ -51,7 +51,6 @@ public class Course {
 		this. componetId= componetId;
 	}
 
-
 	public Location getLocation(){
 		return location;
 	}
@@ -66,11 +65,11 @@ public class Course {
 		this.professorName=p;
 	}
 	public int getDuration(){
-         	return this.Duration;
-        }
-        public void setDuration(int d){
-    	       this.Duration=d;
-        }
+  	return this.duration;
+  }
+  public void setDuration(int d){
+    this.duration=d;
+  }
 
     public boolean equals(Course course){
     	if(getLocation().equals(course.getLocation()) && getProfessorName().equals(course.getProfessorName()))
@@ -78,11 +77,14 @@ public class Course {
     		return true;
     		}
     		return false;
+
     }
 
     public String toString(){
+
     	return "CourseID= "+courseID+", componetID"+componetId+", Course Date"+ date+", Course Time"+time+
     	      ", location"+location+", professor name"+professorName;
+
     			}
 
 
