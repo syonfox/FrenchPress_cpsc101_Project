@@ -25,15 +25,14 @@ class DataReader {
   /** that ArrayList filelines is uses to store a file within the fileManager **/
   private ArrayList<String[]> fileLines;
 
+  private ArrayList<Course> courses;
   /** Constuctor takes a file path as a string and makes the file, it also initalizes fileList
   *@param filePath the path to the data File
   */
   public DataReader(String filePath) {
-
     file = new File(filePath);
-
-
     fileLines = new ArrayList<String[]>();
+    courses = new ArrayList<Course>();
   }
 
   /** Loads a file into an ArrayList (fileLines) **/
@@ -51,7 +50,7 @@ class DataReader {
 	  for(int i = 0; i <line.split(",",0).length; i++ ) {
 	    lineData[i]= line.split(",",0)[i];
 	  }
-	  System.out.println(line);
+	  //System.out.println(line);
 
 	  //lineData = line.split(",");
 
@@ -61,6 +60,8 @@ class DataReader {
 	  }
 	  line = fileIn.readLine();
 	}
+  fileLines.remove(0);
+  fileLines.remove(0);
 
       } catch(FileNotFoundException e) {
 	System.out.println("Error: " + file.getAbsolutePath() + " File Not found");
@@ -93,34 +94,49 @@ class DataReader {
     return fileLines;
   }
 
+  public void makeCourseArray() {
+    Course c = new Course();
+    String courID;
+    String compID;
+    ArrayList<String> dow = new ArrayList<String>();
 
+    Date sDate = new Date();
+    Date eDate = new Date();
+    String[] dateTemp;
 
-  /*We dont need this for what we are curently doing but ill leave it in incase we need to write the data back to file.
-  /** Appends a string to the end of the ArrayList that represents a file
-  * @param stringToAppend the string we want to append.
-
-  public void append(String stringToAppend) {
-    fileLines.add(stringToAppend);
-  }
-  */
-  /* Writes a file from its ArrayList, this must be run for a file to be changed or created **/
-  /*public void writeToFile() {
-    try {
-
-      file.delete();
-      file.createNewFile();
-      BufferedWriter fileOut = new BufferedWriter(new FileWriter(file));
-
-      for(int i = 0; i < fileLines.size(); i++) {
-	fileOut.write(fileLines.get(i));
-	fileOut.newLine();
+    for(int i = 0; i < fileLines.size(); i++) {
+      if(fileLines.get(0).equals(courID) && fileLines.get(1).equals(compID)) {
+        if(fileLines.get(4).equals("")) {
+          dow.add(fileLines.get(7));
+        } else {
+          dow.add(fileLines.get(4));
+        }
       }
-      fileOut.close();
-    } catch(IOException e) {
-      System.out.println("Error: IO Exeption");
+      else {
+        courses.add(c);
+        c = new Course();
+
+        c.setCourseID(fileLines.get(0));
+        c.setComponetId(fileLines.get(1));
+        dateTemp = fileLines.get(2).split("-", 0);
+        sDate.setYear(Intiger.parseInt(dateTemp[0]));
+        sDate.setMonth(Intiger.parseInt(dateTemp[1]));
+        sDate.setDay(Intiger.parseInt(dateTemp[2]));
+
+        dateTemp = fileLines.get(3).split("-", 0);
+        eDate.setYear(Intiger.parseInt(dateTemp[0]));
+        eDate.setMonth(Intiger.parseInt(dateTemp[1]));
+        eDate.setDay(Intiger.parseInt(dateTemp[2]));
+
+        c.setCourseDate(new CourseDate(sDate, eDate));
+
+        if(fileLines.get(4).equals("")) {
+
+        } else {
+
+        }
+      }
     }
+
   }
-  */
-
-
 }

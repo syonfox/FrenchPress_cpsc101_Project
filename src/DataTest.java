@@ -10,14 +10,14 @@ import java.io.FileReader;
 
 /** Main takes no arguments but must have file names set inside of it **/
 public class DataTest {
-  
+
   public static void main(String[] args) {
-  
+
     String inputFile = "testData.csv";
-    Data lines = new Data(inputFile);
+    DataReader lines = new DataReader(inputFile);
     lines.loadData();
     lines.printFile();
     // class[] = lines.toClassesArray();
-   
+
   }
 }
