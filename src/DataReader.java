@@ -17,6 +17,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.BufferedWriter;
 
+import java.sql.Time;
 
 
 class DataReader {
@@ -102,48 +103,78 @@ class DataReader {
   }
 
   public void makeCourseArray() {
-    Course c = new Course();
-    String courID;
-    String compID;
+    Course c = null;
+    String courID = null;
+    String compID = null;
     ArrayList<String> dow = new ArrayList<String>();
 
     Date sDate = new Date();
     Date eDate = new Date();
-    String[] dateTemp;
+    String[] temp;
+    String[] temp2;
 
     for(int i = 0; i < fileLines.size(); i++) {
       if(fileLines.get(0).equals(courID) && fileLines.get(1).equals(compID)) {
         if(fileLines.get(4).equals("")) {
-          dow.add(fileLines.get(7));
+          dow.add(fileLines.get(i)[7]);
         } else {
-          dow.add(fileLines.get(4));
+          dow.add(fileLines.get(i)[4]);
         }
       }
       else {
-        courses.add(c);
+        if(c != null) courses.add(c);
+
         c = new Course();
 
-        c.setCourseID(fileLines.get(0));
-        c.setComponetId(fileLines.get(1));
-        dateTemp = fileLines.get(2).split("-", 0);
-        sDate.setYear(Intiger.parseInt(dateTemp[0]));
-        sDate.setMonth(Intiger.parseInt(dateTemp[1]));
-        sDate.setDay(Intiger.parseInt(dateTemp[2]));
+        c.setCourseID(fileLines.get(i)[0]);
+        c.setComponetId(fileLines.get(i)[1]);
 
-        dateTemp = fileLines.get(3).split("-", 0);
-        eDate.setYear(Intiger.parseInt(dateTemp[0]));
-        eDate.setMonth(Intiger.parseInt(dateTemp[1]));
-        eDate.setDay(Intiger.parseInt(dateTemp[2]));
+        temp = fileLines.get(i)[2].split("-", 0);
 
-        c.setCourseDate(new CourseDate(sDate, eDate));
+        temp2 = fileLines.get(i)[3].split("-", 0);
+        //after setCourseDate is fixed we can uncoment this
+        /*
+        c.setCourseDate(new CourseDate(
+          new Date(
+            Integer.parseInt(temp[0]),
+            Integer.parseInt(temp[1]),
+            Integer.parseInt(temp[2])
+          ),
+          new Date(
+            Integer.parseInt(temp2[0]),
+            Integer.parseInt(temp2[1]),
+            Integer.parseInt(temp2[2])
+          )
+        ));
+        */
 
+        int force;
         if(fileLines.get(4).equals("")) {
-
+          force = 4;
+          //need to add setIsForces
+          //c.setIsForced(true);
         } else {
-
+          force = 7;
+          //c.setIsForced(false);
         }
+        temp = fileLines.get(i)[force+1].split(":", 0);
+        temp2 = fileLines.get(i)[force+1].split(":", 0);
+
+        //after setCourseTime is fixed we can uncoment this
+        /*
+        c.setCourseTime(
+          new Time(Integer.parseInt(temp[0]), Integer.parseInt(temp[1]), 0),
+          new Time(Integer.parseInt(temp2[0]), Integer.parseInt(temp2[1]), 0)
+        );
+        */
+
+        c.setLocation( new Location(
+          fileLines.get(i)[10], fileLines.get(i)[11]
+        ));
+        c.setProfessorName(fileLines.get(i)[12]);
+
+
       }
     }
-
   }
 }
