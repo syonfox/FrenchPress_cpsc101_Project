@@ -3,16 +3,16 @@ import java.util.ArrayList;
 public class Course {
 
 	private String courseID;
-	//private String courseName;
+
 	private String componetId;
-	private String startDate;
-	private String endDate;
+	private CourseDate date;
+	private CourseTime time;
+
 	private Location location;
 	private String professorName;
 
-	private int timeStart;
-	private int Day;
-	private int Duration;
+	private int duration;
+
 	private boolean isForced=false;
 
 	private ArrayList<String> daysOfWeek;
@@ -25,38 +25,32 @@ public class Course {
 	public void setDaysOfWeek(ArrayList<String> daysOfWeek){
 		this.daysOfWeek =daysOfWeek;
 	}
+	public CourseDate getDates(){
+		return date;
+	}
+	public void setDates(CourseDate dates){
+		this.date=dates;
+	}
+	public CourseTime getTimes(){
+		return time;
+	}
+	public void setTimes(CourseTime times){
+		this.time = times;
+	}
 	public String getCouseID(){
 		return this.courseID;
 	}
 	public void setCourseID(String courseId){
 		this. courseID=courseId;
 	}
-	/** public String courseName(){
-		 return this.courseName;
-	 }
-	public void setCourseName(String courseName){
-		this. courseName=courseName;
-	}
-	*/
+
 	public String getComponetId(){
 		return this.componetId;
 	}
 	public void setComponetId(String componetId){
 		this. componetId= componetId;
 	}
-	public String getStartDate(){
-		return this.startDate;
-	}
-	public void setStartDate(String startDate){
-		this. startDate= startDate;
-	}
-	public String getEndDate(){
-		return this.endDate;
-	}
 
-	public void setEndDate(String ed){
-		this.endDate = ed;
-	}
 
 	public Location getLocation(){
 		return location;
@@ -71,40 +65,24 @@ public class Course {
 	public void setProfessorName(String p){
 		this.professorName=p;
 	}
-    public int getTimeStart(){
-    	return this.timeStart;
-    }
-    public void setTimeStart(int TS){
-    	this.timeStart=TS;
-    }
-    public int getDay(){
-    	return this.Day;
-    }
-    public void setDay(int day){
-    	this.Day=day;
-    }
-    public int getDuration(){
-    	return this.Duration;
-    }
-    public void setDuration(int d){
-    	this.Duration=d;
-    }
+	public int getDuration(){
+         	return this.Duration;
+        }
+        public void setDuration(int d){
+    	       this.Duration=d;
+        }
+
     public boolean equals(Course course){
     	if(getLocation().equals(course.getLocation()) && getProfessorName().equals(course.getProfessorName()))
     		{
     		return true;
     		}
     		return false;
-
-
-
     }
 
     public String toString(){
-    	return "CourseID= "+courseID+", componetID"+componetId+", startDate"
-    			+startDate+", endDate"+endDate+",location"+location+", professor name"
-    			+professorName+",time to start"+timeStart+", Day"+Day+", Duration"
-    			+Duration;
+    	return "CourseID= "+courseID+", componetID"+componetId+", Course Date"+ date+", Course Time"+time+
+    	      ", location"+location+", professor name"+professorName;
     			}
 
 
