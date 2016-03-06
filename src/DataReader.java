@@ -29,11 +29,19 @@ class DataReader {
   /** Constuctor takes a file path as a string and makes the file, it also initalizes fileList
   *@param filePath the path to the data File
   */
-  public DataReader(String filePath) {
-    file = new File(filePath);
+
+  public DataReader(File inFile) {
+
+    this.file = inFile;
+
     fileLines = new ArrayList<String[]>();
     courses = new ArrayList<Course>();
   }
+
+  public DataReader(){
+	  //leave it here for now
+	  }
+
 
   /** Loads a file into an ArrayList (fileLines) **/
   public void loadData() {
@@ -50,7 +58,6 @@ class DataReader {
 	  for(int i = 0; i <line.split(",",0).length; i++ ) {
 	    lineData[i]= line.split(",",0)[i];
 	  }
-	  //System.out.println(line);
 
 	  //lineData = line.split(",");
 
