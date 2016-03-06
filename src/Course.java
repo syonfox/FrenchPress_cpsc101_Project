@@ -1,7 +1,7 @@
-package cpsc101project;
+//package cpsc101project;
 import java.util.ArrayList;
 public class Course {
-	
+
 	private String courseID;
 	//private String courseName;
 	private String componetId;
@@ -9,15 +9,15 @@ public class Course {
 	private String endDate;
 	private Location location;
 	private String professorName;
-	
+
 	private int timeStart;
 	private int Day;
 	private int Duration;
 	private boolean isForced=false;
-	
+
 	private ArrayList<String> daysOfWeek;
 	public Course(){
-	
+
 	}
 	public ArrayList<String> getDaysOfWeek(){
           	return daysOfWeek;
@@ -53,18 +53,18 @@ public class Course {
 	public String getEndDate(){
 		return this.endDate;
 	}
-	
+
 	public void setEndDate(String ed){
 		this.endDate = ed;
 	}
-	
+
 	public Location getLocation(){
 		return location;
 	}
 	public void setLocation(Location location){
 		this.location=location;
 	}
-	
+
 	public String getProfessorName(){
 		return this.professorName;
 	}
@@ -95,18 +95,18 @@ public class Course {
     		return true;
     		}
     		return false;
-    	
-    	
-    	
+
+
+
     }
-   
+
     public String toString(){
-    	return "CourseID= "+courseID+", componetID"+componetId+", startDate"  
+    	return "CourseID= "+courseID+", componetID"+componetId+", startDate"
     			+startDate+", endDate"+endDate+",location"+location+", professor name"
     			+professorName+",time to start"+timeStart+", Day"+Day+", Duration"
     			+Duration;
     			}
-    
-    
-    
+
+
+
 }
