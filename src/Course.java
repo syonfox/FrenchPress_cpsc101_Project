@@ -10,7 +10,7 @@ public class Course {
 	
 	private Location location;
 	private String professorName;
-	
+	private int duration;
 
 	private boolean isForced=false;
 	
@@ -64,6 +64,12 @@ public class Course {
 	public void setProfessorName(String p){
 		this.professorName=p;
 	}
+	public int getDuration(){
+         	return this.Duration;
+        }
+        public void setDuration(int d){
+    	       this.Duration=d;
+        }
    
     public boolean equals(Course course){
     	if(getLocation().equals(course.getLocation()) && getProfessorName().equals(course.getProfessorName()))
