@@ -10,12 +10,21 @@ public class Course {
 	private String location;
 	private String professorName;
 	
-	private String timeStart;
+	private int timeStart;
 	private int Day;
 	private int Duration;
 	private boolean isForced=false;
 	
+	private ArrayList<String> daysOfWeek;
+	public Course(){
 	
+	}
+	public ArrayList<String> getDaysOfWeek(){
+          	return daysOfWeek;
+	}
+	public void setDaysOfWeek(ArrayList<String> daysOfWeek){
+		this.daysOfWeek =daysOfWeek;
+	}
 	public String getCouseID(){
 		return this.courseID;
 	}
@@ -62,10 +71,10 @@ public class Course {
 	public void setProfessorName(String p){
 		this.professorName=p;
 	}
-    public String getTimeStart(){
+    public int getTimeStart(){
     	return this.timeStart;
     }
-    public void setTimeStart(String TS){
+    public void setTimeStart(int TS){
     	this.timeStart=TS;
     }
     public int getDay(){
