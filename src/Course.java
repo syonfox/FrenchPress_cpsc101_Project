@@ -65,12 +65,17 @@ public class Course {
 		this.professorName=p;
 	}
 	public int getDuration(){
-  	return this.duration;
-  }
-  public void setDuration(int d){
-    this.duration=d;
-  }
-
+  	return duration;
+      }
+        public void setDuration(int d){
+        this.duration=d;
+      }
+        public void setIsForced(boolean isforced){
+        	this.isForced= isforced;
+        }
+        public boolean getIsForced(){
+          return true;	
+        }
     public boolean equals(Course course){
     	if(getLocation().equals(course.getLocation()) && getProfessorName().equals(course.getProfessorName()))
     		{
