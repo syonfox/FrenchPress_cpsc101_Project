@@ -104,7 +104,7 @@ class DataReader {
 
 	  }
 
-  @SuppressWarnings("deprecation")
+
   public void makeCourseArray() {
 	  Course c;
 
@@ -143,52 +143,21 @@ class DataReader {
 		  if(fileLines.get(i)[4].equals("")){
 			  c.addDayOfWeek(fileLines.get(i)[7]);
 
-        //A temp array to hold the time split into its components
-        String[] tempStartTime = fileLines.get(i)[8].split(":", 0);
+        //seting the start
+        c.setStartTime( getStartTime( fileLines.get(i)[8] ) );
 
-        //seting the start time based on the intigers from the tempStartTime[]
-        c.setStartTime(new Time(
-            Integer.parseInt(tempStartTime[0]),
-            Integer.parseInt(tempStartTime[1]),
-            0
-        ));
-
-        //Temp String[] to hold deuation components
-        String[] tempDuration = fileLines.get(i)[9].split(":", 0);
-        //converting the duration into seconds
-        int tempDurationSeconds = (
-              (Integer.parseInt(tempDuration[0]) * 3600)
-            + (Integer.parseInt(tempDuration[0]) * 60)
-        );
         //seting the duration
-        c.setDuration(tempDurationSeconds);
+        c.setDuration( getDuration( fileLines.get(i)[9] ) );
 		  }//if
 
 		  else if(fileLines.get(i)[7].equals("")){
 			  c.addDayOfWeek(fileLines.get(i)[4]);
 
-			  //c.settime on index 5
-			  //c.setduration on index 6
+        //seting the start
+        c.setStartTime( getStartTime( fileLines.get(i)[5] ) );
 
-        //A temp array to hold the time split into its components
-        String[] tempStartTime = fileLines.get(i)[5].split(":", 0);
-
-        //seting the start time based on the intigers from the tempStartTime[]
-        c.setStartTime(new Time(
-            Integer.parseInt(tempStartTime[0]),
-            Integer.parseInt(tempStartTime[1]),
-            0
-        ));
-
-        //Temp String[] to hold deuation components
-        String[] tempDuration = fileLines.get(i)[6].split(":", 0);
-        //converting the duration into seconds
-        int tempDurationSeconds = (
-              (Integer.parseInt(tempDuration[0]) * 3600)
-            + (Integer.parseInt(tempDuration[0]) * 60)
-        );
         //seting the duration
-        c.setDuration(tempDurationSeconds);
+        c.setDuration( getDuration( fileLines.get(i)[6] ) );
 
 		  }//else if
 
@@ -204,6 +173,30 @@ class DataReader {
 
   }//makeCourseArray method
 
+  @SuppressWarnings("deprecation")
+  private Time getStartTime(String s) {
+    //A temp array to hold the time split into its components
+    String[] tempStartTime = s.split(":", 0);
+
+    //returning start time based on the intigers from the tempStartTime[]
+    return new Time(
+        Integer.parseInt(tempStartTime[0]),
+        Integer.parseInt(tempStartTime[1]),
+        0
+    );
+  }
+
+  private int getDuration(String s) {
+    //Temp String[] to hold deuation components
+    String[] tempDuration = s.split(":", 0);
+    //converting the duration into seconds
+    int tempDurationSeconds = (
+          (Integer.parseInt(tempDuration[0]) * 3600)
+        + (Integer.parseInt(tempDuration[1]) * 60)
+    );
+    //seting the duration
+    return tempDurationSeconds;
+  }
 
 
 
