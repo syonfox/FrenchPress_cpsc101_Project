@@ -13,11 +13,17 @@ public class DataTest {
 
   public static void main(String[] args) {
 
-    String inputFile = "testData.csv";
+    File inputFile = new File("testData.csv");
     DataReader lines = new DataReader(inputFile);
     lines.loadData();
-    lines.printFile();
-    // class[] = lines.toClassesArray();
+    //lines.printFile();
+    lines.makeCourseArray();
+    ArrayList<Course> cs = lines.getCourseArrayList();
+
+    for(int i = 0; i < cs.size(); i++) {
+      System.out.println(cs.get(i).toString());
+
+    }
 
   }
 }

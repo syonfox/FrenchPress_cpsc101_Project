@@ -44,33 +44,35 @@ class DataReader {
   public void loadData() {
     if(fileLines.isEmpty()) {
       try {
-	BufferedReader fileIn = new BufferedReader(new FileReader(file));
-	String[] lineData;
-	String line = fileIn.readLine();
-	while(line != null) {
-	  lineData = new String[13];
-	  for(int i = 0; i < 13; i++ ) {
-	    lineData[i] = "";
-	  }
-	  for(int i = 0; i <line.split(",",0).length; i++ ) {
-	    lineData[i]= line.split(",",0)[i];
-	  }
-
-	  //lineData = line.split(",");
-
-	 // System.out.println(lineData[0]+lineData[1]+lineData[2]+lineData[3]+lineData[4]+lineData[5]+lineData[6]+lineData[7]+lineData[8]+lineData[9]+lineData[10]+lineData[11]+lineData[12]);
-	  if( !lineData[4].equals("") ||  !lineData[7].equals("") ) {
-	    fileLines.add(lineData);
-	  }
-	  line = fileIn.readLine();
-	}
-  fileLines.remove(0);
-
+        //new buffered reader
+	      BufferedReader fileIn = new BufferedReader(new FileReader(file));
+	      String[] lineData;//an array for each line in the file
+	      String line = fileIn.readLine();//sets line to the first line in the file
+	      while(line != null) {//while there are still lines left in the file
+	        lineData = new String[13];//there are 13 items in the csf file
+          //initalizes the lineData as ""
+          for(int i = 0; i < 13; i++ ) {
+	           lineData[i] = "";
+	        }
+          //puts the data from the csv into the lineData array
+          for(int i = 0; i <line.split(",",0).length; i++ ) {
+	          lineData[i]= line.split(",",0)[i];
+	        }
+          //debug line
+	        // System.out.println(lineData[0]+lineData[1]+lineData[2]+lineData[3]+lineData[4]+lineData[5]+lineData[6]+lineData[7]+lineData[8]+lineData[9]+lineData[10]+lineData[11]+lineData[12]);
+          //if the line has all of the needed info in it then it adds it
+          if( !lineData[4].equals("") ||  !lineData[7].equals("") ) {
+            fileLines.add(lineData);
+          }
+          //gets the next line
+	        line = fileIn.readLine();
+	      }
+        fileLines.remove(0);
       } catch(FileNotFoundException e) {
-	System.out.println("Error: " + file.getAbsolutePath() + " File Not found");
-	//here we could add somthing to make maby a popup if there is an error.
+	      System.out.println("Error: " + file.getAbsolutePath() + " File Not found");
+	      //here we could add somthing to make maby a popup if there is an error.
       } catch(IOException e) {
-	System.out.println("Error: IO Exeption");
+        System.out.println("Error: IO Exeption");
       }
     }
   }
@@ -96,30 +98,31 @@ class DataReader {
   public ArrayList<String[]> getArrayList() {
     return fileLines;
   }
-  
+
   public ArrayList<Course> getCourseArrayList() {
-	    return courses;
+      return courses;
+
 	  }
 
   @SuppressWarnings("deprecation")
   public void makeCourseArray() {
 	  Course c;
-	  
+
 	  Date sDate = new Date();
 	  Date eDate = new Date();
 	  String[] arrSDate;
 	  String[] arrEDate;
-	  
-	  
+
+
 	  for(int i = 0; i < fileLines.size();i++){
 		  c = new Course();
-		  
+
 		  //setting courseID
 		  c.setCourseID(fileLines.get(i)[0]);
-		  
+
 		  //setting courseComponent
 		  c.setComponetID(fileLines.get(i)[1]);
-		  
+
 		  //setting start/end dates
 		  arrSDate = fileLines.get(i)[2].split("-", 0);
 		  arrEDate = fileLines.get(i)[3].split("-", 0);
@@ -127,41 +130,81 @@ class DataReader {
 				  Integer.parseInt(arrSDate[0]),
 				  Integer.parseInt(arrSDate[1]),
 				  Integer.parseInt(arrSDate[2])
-	              );
+	    );
 		  eDate =new Date(
 				  Integer.parseInt(arrEDate[0]),
 				  Integer.parseInt(arrEDate[1]),
 				  Integer.parseInt(arrEDate[2])
-				  );
+			);
 		  c.setDates(new CourseDate(sDate,eDate));
-		  
+
+
 		  //setting day of the week
 		  if(fileLines.get(i)[4].equals("")){
 			  c.addDayOfWeek(fileLines.get(i)[7]);
-			  c.setStartTime(new Time(1, 1, 1));
-			  c.setDuration(1);
-			  //c.settime on index 8
-			  //c.setduration on index 9
-		  }
-		  
+
+        //A temp array to hold the time split into its components
+        String[] tempStartTime = fileLines.get(i)[8].split(":", 0);
+
+        //seting the start time based on the intigers from the tempStartTime[]
+        c.setStartTime(new Time(
+            Integer.parseInt(tempStartTime[0]),
+            Integer.parseInt(tempStartTime[1]),
+            0
+        ));
+
+        //Temp String[] to hold deuation components
+        String[] tempDuration = fileLines.get(i)[9].split(":", 0);
+        //converting the duration into seconds
+        int tempDurationSeconds = (
+              (Integer.parseInt(tempDuration[0]) * 3600)
+            + (Integer.parseInt(tempDuration[0]) * 60)
+        );
+        //seting the duration
+        c.setDuration(tempDurationSeconds);
+		  }//if
+
 		  else if(fileLines.get(i)[7].equals("")){
 			  c.addDayOfWeek(fileLines.get(i)[4]);
-			  c.setStartTime(new Time(1, 1, 1));
-			  c.setDuration(1);
+
 			  //c.settime on index 5
 			  //c.setduration on index 6
-		  }
-		  
+
+        //A temp array to hold the time split into its components
+        String[] tempStartTime = fileLines.get(i)[5].split(":", 0);
+
+        //seting the start time based on the intigers from the tempStartTime[]
+        c.setStartTime(new Time(
+            Integer.parseInt(tempStartTime[0]),
+            Integer.parseInt(tempStartTime[1]),
+            0
+        ));
+
+        //Temp String[] to hold deuation components
+        String[] tempDuration = fileLines.get(i)[6].split(":", 0);
+        //converting the duration into seconds
+        int tempDurationSeconds = (
+              (Integer.parseInt(tempDuration[0]) * 3600)
+            + (Integer.parseInt(tempDuration[0]) * 60)
+        );
+        //seting the duration
+        c.setDuration(tempDurationSeconds);
+
+		  }//else if
+
 		  //setting buildingID
 		  c.setLocation(new Location(fileLines.get(i)[10],fileLines.get(i)[11]));
-		  
+
+      //setting profesor name
+      c.setProfessorName(fileLines.get(i)[12]);
+
 		  courses.add(c);
 	  }//for
-	  
-	  
+
+
   }//makeCourseArray method
-  
-  
-  
-  
+
+
+
+
 }
