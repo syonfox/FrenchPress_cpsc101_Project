@@ -113,8 +113,9 @@ class DataReader {
 	  String[] arrSDate;
 	  String[] arrEDate;
 
-
-	  for(int i = 0; i < fileLines.size();i++){
+    //set to a int to speed up some stuff .. i think
+    int fileLinesSize = fileLines.size();
+	  for(int i = 0; i < fileLinesSize;){
 		  c = new Course();
 
 		  //setting courseID
@@ -137,27 +138,77 @@ class DataReader {
 				  Integer.parseInt(arrEDate[2])
 			);
 		  c.setDates(new CourseDate(sDate,eDate));
-
-
+      //System.out.println("Test1");
+      int j = 0;
 		  //setting day of the week
 		  if(fileLines.get(i)[4].equals("")){
-			  c.addDayOfWeek(fileLines.get(i)[7]);
-
         //seting the start
         c.setStartTime( getStartTime( fileLines.get(i)[8] ) );
 
         //seting the duration
         c.setDuration( getDuration( fileLines.get(i)[9] ) );
+
+        //I will try to explain the logic behind the days of the week and
+        //how this for loop now advances as it is a bit weird ... but it works
+        //these coments apply to other part to as it is the same
+
+        //j is the counter for how much i will be incremented at the end of
+        //the for loop. the way it works is i will always become the start of
+        //the next course thus i skips all duplakate lines that mearly have changed
+        // day of the week
+        j = 0;
+        while(true) {
+          //avoids index out of bounds at end of file, this is needed becuse
+          //on the last line j will be incremented and then i+j will be
+          //fileLines.size() whitch is one more then the max index
+          if(i+j >= fileLinesSize) {
+            break;
+          }
+          //this cheacks if the line j lines forward is the same as the first line
+          //it will alway be true for j = 0 whitch is why we need the above check
+          if( fileLines.get(i)[0].equals(fileLines.get(i+j)[0]) &&
+              fileLines.get(i)[1].equals(fileLines.get(i+j)[1])) {
+            //if everything is equal then the day is added to the days of the week
+            c.addDayOfWeek(fileLines.get(i+j)[7]);
+            //System.out.println("Debug: "+fileLines.get(i+j)[0]+" - "+fileLines.get(i+j)[1]+" : "+fileLines.get(i+j)[7]);
+            //and j is incremented thus making it cheack the next line
+            j++;
+
+            //when the next line is not equal to the first we break the loop
+            //withough incrementing j thus the new i will be this line
+            //whitch was not the same as the one above thus the start of a new course
+          }else {
+            break;
+          }
+        }
+        //see end of loop for the loop incrementing
+
 		  }//if
 
 		  else if(fileLines.get(i)[7].equals("")){
-			  c.addDayOfWeek(fileLines.get(i)[4]);
-
         //seting the start
         c.setStartTime( getStartTime( fileLines.get(i)[5] ) );
 
         //seting the duration
         c.setDuration( getDuration( fileLines.get(i)[6] ) );
+
+        //This is "the other part"
+        j = 0;
+        while(true) {
+          //avoids index out of bounds at end of file
+          if(i+j >= fileLinesSize) {
+            break;
+          }
+          if( fileLines.get(i)[0].equals(fileLines.get(i+j)[0]) &&
+              fileLines.get(i)[1].equals(fileLines.get(i+j)[1])) {
+            c.addDayOfWeek(fileLines.get(i+j)[4]);
+            //System.out.println("Debug: "+fileLines.get(i+j)[0]+" - "+fileLines.get(i+j)[1]+" : "+fileLines.get(i+j)[4]);
+            j++;
+          }else {
+            break;
+          }
+        }
+        //see end of loop
 
 		  }//else if
 
@@ -168,6 +219,10 @@ class DataReader {
       c.setProfessorName(fileLines.get(i)[12]);
 
 		  courses.add(c);
+
+      //Here we increment i by j essentaly skiping all of the lines that were
+      //duplacet couses with only the day of the week changed.
+      i+=j;
 	  }//for
 
 
