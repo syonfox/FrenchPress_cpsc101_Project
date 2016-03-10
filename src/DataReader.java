@@ -101,80 +101,65 @@ class DataReader {
 	    return courses;
 	  }
 
+  @SuppressWarnings("deprecation")
   public void makeCourseArray() {
-    Course c = null;
-    String courID = null;
-    String compID = null;
-    ArrayList<String> dow = new ArrayList<String>();
-
-    Date sDate = new Date();
-    Date eDate = new Date();
-    String[] temp;
-    String[] temp2;
-
-    for(int i = 0; i < fileLines.size(); i++) {
-      if(fileLines.get(0).equals(courID) && fileLines.get(1).equals(compID)) {
-        if(fileLines.get(4).equals("")) {
-          dow.add(fileLines.get(i)[7]);
-        } else {
-          dow.add(fileLines.get(i)[4]);
-        }
-      }
-      else {
-        if(c != null) courses.add(c);
-
-        c = new Course();
-
-        c.setCourseID(fileLines.get(i)[0]);
-        c.setComponetID(fileLines.get(i)[1]);
-
-        temp = fileLines.get(i)[2].split("-", 0);
-
-        temp2 = fileLines.get(i)[3].split("-", 0);
-        
-        sDate = new Date(
-                Integer.parseInt(temp[0]),
-                Integer.parseInt(temp[1]),
-                Integer.parseInt(temp[2])
-              );
-        eDate =new Date(
-            Integer.parseInt(temp2[0]),
-            Integer.parseInt(temp2[1]),
-            Integer.parseInt(temp2[2])
-          );
-        c.setDates(new CourseDate(sDate,eDate));
-        
-        
-        int force;
-        if(fileLines.get(4).equals("")) {
-          force = 4;
-          //need to add setIsForces
-          //c.setIsForced(true);
-        } else {
-          force = 7;
-          //c.setIsForced(false);
-        }
-        temp = fileLines.get(i)[force+1].split(":", 0);
-        temp2 = fileLines.get(i)[force+1].split(":", 0);
-
-        //after setCourseTime is fixed we can uncoment this
-        /*
-        c.setCourseTime(
-          new Time(Integer.parseInt(temp[0]), Integer.parseInt(temp[1]), 0),
-          new Time(Integer.parseInt(temp2[0]), Integer.parseInt(temp2[1]), 0)
-        );
-        */
-
-        c.setLocation( new Location(
-          fileLines.get(i)[10], fileLines.get(i)[11]
-        ));
-        c.setProfessorName(fileLines.get(i)[12]);
-
-        
-      }
-      
-    }
-  }
+	  Course c;
+	  
+	  Date sDate = new Date();
+	  Date eDate = new Date();
+	  String[] arrSDate;
+	  String[] arrEDate;
+	  
+	  
+	  for(int i = 0; i < fileLines.size();i++){
+		  c = new Course();
+		  
+		  //setting courseID
+		  c.setCourseID(fileLines.get(i)[0]);
+		  
+		  //setting courseComponent
+		  c.setComponetID(fileLines.get(i)[1]);
+		  
+		  //setting start/end dates
+		  arrSDate = fileLines.get(i)[2].split("-", 0);
+		  arrEDate = fileLines.get(i)[3].split("-", 0);
+		  sDate = new Date(
+				  Integer.parseInt(arrSDate[0]),
+				  Integer.parseInt(arrSDate[1]),
+				  Integer.parseInt(arrSDate[2])
+	              );
+		  eDate =new Date(
+				  Integer.parseInt(arrEDate[0]),
+				  Integer.parseInt(arrEDate[1]),
+				  Integer.parseInt(arrEDate[2])
+				  );
+		  c.setDates(new CourseDate(sDate,eDate));
+		  
+		  //setting day of the week
+		  if(fileLines.get(i)[4].equals("")){
+			  c.addDayOfWeek(fileLines.get(i)[7]);
+			  c.setStartTime(new Time(1, 1, 1));
+			  c.setDuration(1);
+			  //c.settime on index 8
+			  //c.setduration on index 9
+		  }
+		  
+		  else if(fileLines.get(i)[7].equals("")){
+			  c.addDayOfWeek(fileLines.get(i)[4]);
+			  c.setStartTime(new Time(1, 1, 1));
+			  c.setDuration(1);
+			  //c.settime on index 5
+			  //c.setduration on index 6
+		  }
+		  
+		  //setting buildingID
+		  c.setLocation(new Location(fileLines.get(i)[10],fileLines.get(i)[11]));
+		  
+		  courses.add(c);
+	  }//for
+	  
+	  
+  }//makeCourseArray method
   
   
   

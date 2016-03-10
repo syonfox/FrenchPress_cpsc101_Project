@@ -13,17 +13,24 @@ public class Course {
 	private Location location;
 	private String professorName;
 
-	private Time duration;
+	private int duration;
 
 	private boolean isForced=false;
 
 	private ArrayList<String> daysOfWeek;
+	
+	public Course(){
+		daysOfWeek = new ArrayList<String>();
+	}
 	
 	public ArrayList<String> getDaysOfWeek(){
           	return daysOfWeek;
 	}
 	public void setDaysOfWeek(ArrayList<String> daysOfWeek){
 		this.daysOfWeek =daysOfWeek;
+	}
+	public void addDayOfWeek(String day){
+		daysOfWeek.add(day);
 	}
 	public CourseDate getDates(){
 		return date;
@@ -37,10 +44,10 @@ public class Course {
 	public void setStartTime(Time t){
 		this.startTime = t;
 	}
-	public void setDuration(Time t){
+	public void setDuration(int t){
 		this.duration = t;
 	}
-	public Time getDuration(){
+	public int getDuration(){
 		return this.duration;
 	}
 	
