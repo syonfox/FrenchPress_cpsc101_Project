@@ -1,24 +1,24 @@
 //package cpsc101project;
+import java.sql.Time;
 import java.util.ArrayList;
 public class Course {
 
 	private String courseID;
 
-	private String componetId;
+	private String componetID;
+	
 	private CourseDate date;
-	private CourseTime time;
+	private Time startTime;
 
 	private Location location;
 	private String professorName;
 
-	private int duration;
+	private Time duration;
 
 	private boolean isForced=false;
 
 	private ArrayList<String> daysOfWeek;
-	public Course(){
-
-	}
+	
 	public ArrayList<String> getDaysOfWeek(){
           	return daysOfWeek;
 	}
@@ -31,12 +31,19 @@ public class Course {
 	public void setDates(CourseDate dates){
 		this.date=dates;
 	}
-	public CourseTime getTimes(){
-		return time;
+	public Time getStartTime(){
+		return startTime;
 	}
-	public void setTimes(CourseTime times){
-		this.time = times;
+	public void setStartTime(Time t){
+		this.startTime = t;
 	}
+	public void setDuration(Time t){
+		this.duration = t;
+	}
+	public Time getDuration(){
+		return this.duration;
+	}
+	
 	public String getCouseID(){
 		return this.courseID;
 	}
@@ -44,11 +51,11 @@ public class Course {
 		this. courseID=courseId;
 	}
 
-	public String getComponetId(){
-		return this.componetId;
+	public String getComponetID(){
+		return this.componetID;
 	}
-	public void setComponetId(String componetId){
-		this. componetId= componetId;
+	public void setComponetID(String componetID){
+		this. componetID= componetID;
 	}
 
 	public Location getLocation(){
@@ -64,12 +71,6 @@ public class Course {
 	public void setProfessorName(String p){
 		this.professorName=p;
 	}
-	public int getDuration(){
-  	return duration;
-      }
-        public void setDuration(int d){
-        this.duration=d;
-      }
         public void setIsForced(boolean isforced){
         	this.isForced= isforced;
         }
@@ -87,11 +88,8 @@ public class Course {
 
     public String toString(){
 
-    	return "CourseID= "+courseID+", componetID"+componetId+", Course Date"+ date+", Course Time"+time+
-    	      ", location"+location+", professor name"+professorName;
+    	return "CourseID = " + courseID + " ComponetID = " + componetID + " Course Date = " + date + " Start time = " + getStartTime() +
+    	      " Duration = " + getDuration() + " Location = " + location + " Professor name = " + professorName;
 
     			}
-
-
-
 }

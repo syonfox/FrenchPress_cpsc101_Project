@@ -7,7 +7,6 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -20,7 +19,8 @@ public class GUI {
 	private static final int WIDTH = 400;
 	private static final int HEIGHT = 400;
 	
-	private static ArrayList<String[]> courses;
+	private static ArrayList<Course> courses;
+	private static ArrayList<String[]> coursesString;
 	
 	public static void main(String args[]){
 		startGUI();
@@ -50,11 +50,11 @@ public class GUI {
 				    inFile = fileChooser.getSelectedFile();
 				    
 				    try {
-				    	//DataReader dr = new DataReader();
-				    	//courses = dr.readFileToArrayList(inFile);
 				    	DataReader dr = new DataReader(inFile);
 				    	dr.loadData();
-				    	courses = dr.getArrayList();
+				    	dr.makeCourseArray();
+				    	//coursesString = dr.getArrayList();
+				    	courses = dr.getCourseArrayList();
 					} catch (Exception e) {
 						System.out.println("There is a problem with the file.");
 						e.printStackTrace();
@@ -63,13 +63,19 @@ public class GUI {
 				}
 				////////////////////////////////////////////////////////
 				//prints the array list to test, delete it later
-				
-				for(int i = 0; i < courses.size(); i++){
-					for(int j = 0; j < courses.get(i).length; j++){
-						System.out.print(courses.get(i)[j] + " ");
+				/*
+				for(int i = 0; i < coursesString.size(); i++){
+					for(int j = 0; j < coursesString.get(i).length; j++){
+						System.out.print(coursesString.get(i)[j] + " ");
 					}
 					System.out.println();
 				}
+				*/
+				
+				for(int i = 0; i < courses.size(); i++){
+					System.out.println(courses.get(i));
+				}
+				System.out.println(courses.size());
 				
 				////////////////////////////////////////////////////////
 			}

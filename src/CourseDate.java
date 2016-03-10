@@ -21,4 +21,8 @@ public class CourseDate {
 	public Date getEndDate(){
 		return endDate;
 	}
+	
+	public String toString(){
+		return "From " + getStartDate() + " to " + getEndDate();
+	}
 }

@@ -14,7 +14,7 @@ public class TimeTable {
   
   public TimeTable(String name) {
     timeTableName = name;
-    courses = new ArrayList<Course>;
+    courses = new ArrayList<Course>();
     //int numberOfCourses = 0;
   }
   public TimeTable(String name , ArrayList<Course> initalCourses) {

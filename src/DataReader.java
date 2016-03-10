@@ -39,10 +39,6 @@ class DataReader {
     courses = new ArrayList<Course>();
   }
 
-  public DataReader(){
-	  //leave it here for now
-	  }
-
 
   /** Loads a file into an ArrayList (fileLines) **/
   public void loadData() {
@@ -68,7 +64,6 @@ class DataReader {
 	  }
 	  line = fileIn.readLine();
 	}
-  fileLines.remove(0);
   fileLines.remove(0);
 
       } catch(FileNotFoundException e) {
@@ -101,6 +96,10 @@ class DataReader {
   public ArrayList<String[]> getArrayList() {
     return fileLines;
   }
+  
+  public ArrayList<Course> getCourseArrayList() {
+	    return courses;
+	  }
 
   public void makeCourseArray() {
     Course c = null;
@@ -127,27 +126,25 @@ class DataReader {
         c = new Course();
 
         c.setCourseID(fileLines.get(i)[0]);
-        c.setComponetId(fileLines.get(i)[1]);
+        c.setComponetID(fileLines.get(i)[1]);
 
         temp = fileLines.get(i)[2].split("-", 0);
 
         temp2 = fileLines.get(i)[3].split("-", 0);
-        //after setCourseDate is fixed we can uncoment this
-        /*
-        c.setCourseDate(new CourseDate(
-          new Date(
-            Integer.parseInt(temp[0]),
-            Integer.parseInt(temp[1]),
-            Integer.parseInt(temp[2])
-          ),
-          new Date(
+        
+        sDate = new Date(
+                Integer.parseInt(temp[0]),
+                Integer.parseInt(temp[1]),
+                Integer.parseInt(temp[2])
+              );
+        eDate =new Date(
             Integer.parseInt(temp2[0]),
             Integer.parseInt(temp2[1]),
             Integer.parseInt(temp2[2])
-          )
-        ));
-        */
-
+          );
+        c.setDates(new CourseDate(sDate,eDate));
+        
+        
         int force;
         if(fileLines.get(4).equals("")) {
           force = 4;
@@ -173,8 +170,13 @@ class DataReader {
         ));
         c.setProfessorName(fileLines.get(i)[12]);
 
-
+        
       }
+      
     }
   }
+  
+  
+  
+  
 }
