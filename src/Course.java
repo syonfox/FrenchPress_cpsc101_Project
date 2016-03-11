@@ -6,23 +6,23 @@ public class Course {
 	private String courseID;
 
 	private String componetID;
-
+	
 	private CourseDate date;
 	private Time startTime;
 
 	private Location location;
 	private String professorName;
 
-	private int duration;
+	private double duration;
 
 	private boolean isForced=false;
 
 	private ArrayList<String> daysOfWeek;
-
+	
 	public Course(){
 		daysOfWeek = new ArrayList<String>();
 	}
-
+	
 	public ArrayList<String> getDaysOfWeek(){
           	return daysOfWeek;
 	}
@@ -44,13 +44,13 @@ public class Course {
 	public void setStartTime(Time t){
 		this.startTime = t;
 	}
-	public void setDuration(int t){
+	public void setDuration(double t){
 		this.duration = t;
 	}
-	public int getDuration(){
+	public double getDuration(){
 		return this.duration;
 	}
-
+	
 	public String getCouseID(){
 		return this.courseID;
 	}
@@ -78,12 +78,13 @@ public class Course {
 	public void setProfessorName(String p){
 		this.professorName=p;
 	}
-        public void setIsForced(boolean isforced){
-        	this.isForced= isforced;
-        }
-        public boolean getIsForced(){
-          return true;
-        }
+   
+   public void setIsForced(boolean isforced){
+      this.isForced= isforced;
+   }
+   public boolean getIsForced(){
+      return true;
+   }
     public boolean equals(Course course){
     	if(getLocation().equals(course.getLocation()) && getProfessorName().equals(course.getProfessorName()))
     		{
@@ -94,13 +95,12 @@ public class Course {
     }
 
     public String toString(){
-			String stringToReturn = "CourseID = " + courseID + " ComponetID = " + componetID + " Course Date = " + date + " Start time = " + getStartTime() +
-    	      " Duration = " + getDuration() + " Location = " + location + " Professor name = " + professorName + " Days Of The Week = ";
-			for(int i=0; i<daysOfWeek.size()-1; i++) {
-				stringToReturn += daysOfWeek.get(i) + ", ";
-			}
-			stringToReturn += daysOfWeek.get(daysOfWeek.size()-1);
-    	return stringToReturn;
+    	String days = "";
+    	for(int i=0;i<daysOfWeek.size();i++)
+    		days += daysOfWeek.get(i) + " ";
+    	
+    	return "CourseID = " + courseID + " ComponetID = " + componetID + " Course Date = " + date + " Days = " + days + " Start time = " + getStartTime() +
+    	      " Duration = " + getDuration() + " Location = " + location + " Professor name = " + professorName;
 
-  }
+    }
 }
