@@ -100,6 +100,7 @@ class DataReader {
   }
 
   public ArrayList<Course> getCourseArrayList() {
+      System.out.println("Returning course arraylist");
       return courses;
 
 	  }
@@ -246,8 +247,8 @@ class DataReader {
     String[] tempDuration = s.split(":", 0);
     //converting the duration into seconds
     int tempDurationSeconds = (
-          (Integer.parseInt(tempDuration[0]) * 3600)
-        + (Integer.parseInt(tempDuration[1]) * 60)
+          (Integer.parseInt(tempDuration[0]) * 60)
+        + (Integer.parseInt(tempDuration[1]))
     );
     //seting the duration
     return tempDurationSeconds;
