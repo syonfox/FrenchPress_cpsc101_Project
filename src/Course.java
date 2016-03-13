@@ -85,12 +85,12 @@ public class Course {
    public boolean getIsForced(){
       return true;
    }
-   public boolean isComflexWith(Course another){
+   public boolean isConflictWith(Course another){
 		 @SuppressWarnings("deprecation")
 		int ST1= startTime.getHours()*minsPerHour+startTime.getMinutes();
 		int ST2= another.startTime.getHours()*minsPerHour+another.startTime.getMinutes();
-		int ET1= ST1*minsPerHour+getDuration();
-		int ET2= ST2*minsPerHour+another.getDuration();
+		int ET1= ST1+getDuration();
+		int ET2= ST2+another.getDuration();
 		if(ST1<ST2 && ST2<ET1){
 			return true;
 		}
