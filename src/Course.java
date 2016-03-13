@@ -85,7 +85,7 @@ public class Course {
    public boolean getIsForced(){
       return true;
    }
-   public boolean isConflictWith(Course another){
+   public boolean conflictsWith(Course another){
 		 @SuppressWarnings("deprecation")
 		int ST1= startTime.getHours()*minsPerHour+startTime.getMinutes();
 		int ST2= another.startTime.getHours()*minsPerHour+another.startTime.getMinutes();
