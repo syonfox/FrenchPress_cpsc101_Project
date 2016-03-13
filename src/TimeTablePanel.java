@@ -21,14 +21,14 @@ public class TimeTablePanel extends JPanel {
     int height = (int) getSize().getHeight();
     int width = (int) getSize().getWidth();
     int timeW = 100;
-    calTemp = (height-40)/25;
+    calTemp = (height-40)/26;
     int timeH = (int) calTemp;
     calTemp = (width-100)/5;
     int dayW = (int) calTemp;
     int dayH = 40;
 
     String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
-    String[] times = {" 8:30am", " 9:00am", " 9:30am", "10:00am", "10:30am",
+    String[] times = {" 8:00am", " 8:30am", " 9:00am", " 9:30am", "10:00am", "10:30am",
                       "11:00am", "11:30am", "12:00am", "12:30am", " 1:00pm",
                       " 1:30pm", " 2:00pm", " 2:30pm", " 3:00pm", " 3:30pm",
                       " 4:00pm", " 4:30pm", " 5:00pm", " 5:30pm", " 6:00pm",
@@ -53,7 +53,7 @@ public class TimeTablePanel extends JPanel {
     }
 
     g2d.setFont(deafultFont);
-    for(int i = 0, x = 0, y = dayH; i <25; i++) {
+    for(int i = 0, x = 0, y = dayH; i < times.length; i++) {
       g2d.drawRect(x, y, timeW, timeH);
       g2d.drawString(times[i], x+10, y+15);
       y += timeH;
