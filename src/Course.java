@@ -85,6 +85,22 @@ public class Course {
    public boolean getIsForced(){
       return true;
    }
+   public boolean isComflexWith(Course another){
+		 @SuppressWarnings("deprecation")
+		int ST1= startTime.getHours()*minsPerHour+startTime.getMinutes();
+		int ST2= another.startTime.getHours()*minsPerHour+another.startTime.getMinutes();
+		int ET1= ST1*minsPerHour+getDuration();
+		int ET2= ST2*minsPerHour+another.getDuration();
+		if(ST1<ST2 && ST2<ET1){
+			return true;
+		}
+		else if (ST1>ST2 && ST1<ET2){
+			return true;
+		}
+		
+		return false;
+		
+	}
     public boolean equals(Course course){
     	if(getLocation().equals(course.getLocation()) && getProfessorName().equals(course.getProfessorName()))
     		{
