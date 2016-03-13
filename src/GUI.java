@@ -3,32 +3,34 @@
 * @since 2016-03-06
 **/
 
-import java.awt.FlowLayout;
 import java.awt.BorderLayout;
-import javax.swing.BoxLayout;
-import javax.swing.DefaultListModel;
+import java.awt.Dimension;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JList;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import java.awt.Dimension;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.JViewport;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import java.awt.Dimension;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 
 public class GUI {
 
@@ -38,13 +40,13 @@ public class GUI {
 	private static JList<String> courseList;
 	private static JList<String> timeTableList;
 	private static DefaultListModel<String> timeTableListModel = new DefaultListModel<String>();
-	
+
 	private static final int WIDTH = 400;
 	private static final int HEIGHT = 400;
 	private static TimeTablePanel ttp;
 	private static ArrayList<Course> courses;
 	private static TimeTable timeTable;
-
+	private static JTextArea taConflictBox;
 	public static void main(String args[]){
 
 		UIManager.installLookAndFeel("the look and feel",
@@ -73,15 +75,15 @@ public class GUI {
 	       // handle exception
 				 //System.out.println(e.toString());
 	    }
-	
+
 			startGUI();
 			guiManager();
 		}
 
-	
-	
-	
-	
+
+
+
+
 	public static void startGUI(){
 		frame = new JFrame();
 		frame.setSize(WIDTH, HEIGHT);
@@ -91,13 +93,13 @@ public class GUI {
 	}
 
 
-	
-	
-	
-	
+
+
+
+
 	//@SuppressWarnings({"rawtypes","unchecked"})
 	public static void guiManager(){
-		
+
 		ttp = new TimeTablePanel();
 		ttp.setTimeTable(timeTable);
 		JScrollPane scrollPane = new JScrollPane(ttp);
@@ -119,16 +121,19 @@ public class GUI {
 
 		options.setLayout(new BoxLayout(options, BoxLayout.Y_AXIS));
 
+
+
+
 		//handles load file button
 		JButton btnLoadFile = new JButton("Load File");
 		btnLoadFile.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				File inFile = null;
 				JFileChooser fileChooser = new JFileChooser();
-				
+
 				FileNameExtensionFilter filter = new FileNameExtensionFilter("CSV FILES", "csv", "csv");
 				fileChooser.setFileFilter(filter);
-				
+
 				fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
 				int result = fileChooser.showOpenDialog(fileChooser);
 
@@ -139,13 +144,13 @@ public class GUI {
 				    	dr.loadData();
 				    	dr.makeCourseArray();
 				    	courses = dr.getCourseArrayList();
-				    	
+
 				    	DefaultListModel<String> model = new DefaultListModel<String>();
 				    	for(int i = 0; i < courses.size(); i++)
 				    		model.addElement(courses.get(i).getCouseID() + " - " + courses.get(i).getComponetID());
-				    	
+
 				    	courseList.setModel(model);
-				    	
+
 					} catch (Exception e) {
 						System.out.println("There is a problem with the file.");
 						e.printStackTrace();
@@ -153,46 +158,43 @@ public class GUI {
 				}
 			}
 		});
-		
+
 		JPanel loadFile = new JPanel(new BorderLayout());
 		loadFile.add(btnLoadFile,BorderLayout.CENTER);
 		loadFile.setMaximumSize(new Dimension(250, 30));
 
-		
-		
-		
-		
-		
-		
+
+
+
 		//Make Time Table button
 		JButton btnMakeTimeTable = new JButton("Display Selected Courses");
 		btnMakeTimeTable.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				
+
 				ArrayList<String> selectedCourses = new ArrayList<String>();
-				
+
 				for(int i = 0; i < timeTableListModel.getSize(); i++)
 					selectedCourses.add(timeTableListModel.getElementAt(i));
-				
+
 				//ArrayList<Course> c = cm.toCourseArrayList(selectedCourses);
-				
-				
+
+
 				timeTable = new TimeTable("Test Time Table", courses);
+				timeTable.cheackConfilcts();
 				timeTable.prepareCourseDrawInfo();
 				ttp.setTimeTable(timeTable);
 				ttp.repaint();
+
+				String[] tempConfilcts = timeTable.getConflicts();
+				taConflictBox.setText("");
+				for(int i = 0; i < tempConfilcts.length; i++) {
+					taConflictBox.append(tempConfilcts[i]);
+				}
 			}
 		});
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
+
+
 		JPanel makeTimeTable = new JPanel(new BorderLayout());
 		makeTimeTable.add(btnMakeTimeTable,BorderLayout.CENTER);
 		makeTimeTable.setMaximumSize(new Dimension(250, 30));
@@ -203,19 +205,19 @@ public class GUI {
 		search.add(lbSearch, BorderLayout.WEST);
 		search.add(tfSearch, BorderLayout.EAST);
 		search.setMaximumSize(new Dimension(250, 30));
-		
+
 		courseList = new JList<String>(arrCourses);
 		JScrollPane courseListSP = new JScrollPane();
 		courseListSP.getViewport().add(courseList);
 		courseListSP.setPreferredSize(new Dimension(250, 200));
 
-		
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
+
 		JButton btnAdd = new JButton("Add Course");
 		btnAdd.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
@@ -223,7 +225,7 @@ public class GUI {
 				timeTableList.setModel(timeTableListModel);
 			}
 		});
-		
+
 		JButton btnDel = new JButton("Del Course");
 		btnDel.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
@@ -232,9 +234,9 @@ public class GUI {
 				timeTableList.setModel(timeTableListModel);
 			}
 		});
-		
-		
-		
+
+
+
 		JPanel editP = new JPanel(new BorderLayout());
 		editP.add(btnAdd, BorderLayout.NORTH);
 		editP.add(btnDel, BorderLayout.CENTER);
@@ -246,22 +248,19 @@ public class GUI {
 		timeTableListSP.getViewport().add(timeTableList);
 		timeTableListSP.setPreferredSize(new Dimension(250, 200));
 
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
+		taConflictBox = new JTextArea();
+		JScrollPane conflictBoxSP = new JScrollPane(options);
+		conflictBoxSP.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		conflictBoxSP.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		conflictBoxSP.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
+		taConflictBox.setMinimumSize(new Dimension(250, 100));
+		conflictBoxSP.setPreferredSize(new Dimension(250, 200));
+		conflictBoxSP.getViewport().add(taConflictBox);
+
+
+
+
 		options.add(loadFile);
 		options.add(search);
 		options.add(courseListSP);
@@ -271,6 +270,7 @@ public class GUI {
 
 		frame.add(options, BorderLayout.WEST);
 		frame.add(scrollPane, BorderLayout.CENTER);
+		frame.add(conflictBoxSP, BorderLayout.SOUTH);
 		frame.pack();
 		frame.setVisible(true);
 	}

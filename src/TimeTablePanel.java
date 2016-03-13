@@ -68,8 +68,12 @@ public class TimeTablePanel extends JPanel {
         //System.out.println("Drawing CDI :"+index + "st:" +cdi.getStartTime()+"Color:"+cdi.getColor().toString());
         for(int i = 0; i < cdi.getNumberOfDays(); i++) {
             g2d.setColor(cdi.getColor());
+
+            //System.out.println(cdi.getDisplayString() +" duration:"+cdi.getDuration()+" height:"+timeH*cdi.getDuration());
+
             g2d.fillRect(timeW+(dayW*cdi.getDay(i)), dayH+(timeH*cdi.getStartTime()) ,dayW ,timeH*cdi.getDuration() );
             g2d.setColor(Color.BLACK);
+            g2d.drawRect(timeW+(dayW*cdi.getDay(i)), dayH+(timeH*cdi.getStartTime()) ,dayW ,timeH*cdi.getDuration() );
             g2d.drawString(cdi.getDisplayString(), timeW+(dayW*cdi.getDay(i))+10, dayH+(timeH*cdi.getStartTime()+15) );
         }
         index++;

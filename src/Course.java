@@ -85,27 +85,45 @@ public class Course {
    public boolean getIsForced(){
       return true;
    }
-   
-   
-   
+
+
+	public boolean compareDays(Course other){
+		for(int i = 0; i < daysOfWeek.size(); i++){
+	    for(int j = 0; j < other.getDaysOfWeek().size(); j++){
+	      if(daysOfWeek.get(i).equals(other.getDaysOfWeek().get(j)))
+	        return true;
+	      }
+	    }
+	    return false;
+	  }
+
 	 @SuppressWarnings("deprecation")
    public boolean conflictsWith(Course another){
-		int sT1=  startTime.getHours()*60+startTime.getMinutes();
-		int sT2= another.startTime.getHours()*60+another.startTime.getMinutes();
-		int eT1= sT1+getDuration();
-		int eT2= sT2+another.getDuration();
-		if(sT1<sT2 && sT2<eT1){
-			return true;
-		}
-		else if (sT1>sT2 && sT1<eT2){
-			return true;
-		}
+		 if(compareDays(another)) {
+				int sT1=  startTime.getHours()*60+startTime.getMinutes();
+				int sT2= another.startTime.getHours()*60+another.startTime.getMinutes();
+				int eT1= sT1+getDuration();
+				int eT2= sT2+another.getDuration();
 
+				if(sT1 == sT2) {
+					return true;
+				}
+
+				if(eT1 == eT2) {
+					return true;
+				}
+
+				if(sT1<sT2 && sT2<eT1){
+					return true;
+				}
+				else if (sT1>sT2 && sT1<eT2){
+					return true;
+				}
+				return false;
+			}
 		return false;
-
 	}
-   
-   
+
     public boolean equals(Course course){
     	if(getLocation().equals(course.getLocation()) && getProfessorName().equals(course.getProfessorName()))
     		{

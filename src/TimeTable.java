@@ -62,7 +62,7 @@ public class TimeTable {
     for(int i = 0; i < courses.size(); i++) {
       hasConflict[i] = false;
       comma = false;
-      tempConfilcts = null;
+      tempConfilcts = "";
       for(int j = 0; j < courses.size(); j++) {
         if(i!=j && courses.get(i).conflictsWith(courses.get(j))) {
           hasConflict[i] = true;
@@ -73,7 +73,7 @@ public class TimeTable {
       }
       if(hasConflict[i]) {
         conficts.add(courses.get(i).getCouseID()+"-"+courses.get(i).getComponetID()
-                      + "Conflicts with: " + tempConfilcts);
+                      + " Conflicts with: " + tempConfilcts + "\n");
       }
     }
   }
