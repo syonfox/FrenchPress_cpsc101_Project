@@ -26,7 +26,7 @@ public class TimeTable {
     courses = initalCourses;
 
     for(int i = 0; i < courses.size(); i++){
-      System.out.println(courses.get(i).toString());
+    //  System.out.println(courses.get(i).toString());
     }
     //int numberOfCourses = cou;
   }
@@ -44,7 +44,7 @@ public class TimeTable {
       }
     }
   }
-
+  @SuppressWarnings("deprecation")
   public void prepareCourseDrawInfo(){
     courseDI = new ArrayList<CourseDrawInfo>();
     Course tempC;
@@ -81,7 +81,7 @@ public class TimeTable {
       st = tempC.getStartTime();
       intst = (st.getHours()*2 + st.getMinutes()/30) - 16;
       duration = (int) tempC.getDuration()/30;
-      displayString = tempC.getCouseID() +"-"+tempC.getComponetID()+"/n"
+      displayString = tempC.getCouseID() +"-"+tempC.getComponetID()+" "
                       + tempC.getLocation().toString();
       tempCDI = new CourseDrawInfo(false, days, intst, duration, displayString);
       courseDI.add(tempCDI);

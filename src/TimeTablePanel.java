@@ -4,12 +4,13 @@ import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Font;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
 
-
+@SuppressWarnings("serial")
 public class TimeTablePanel extends JPanel {
     //private ArrayList<Course> courses;
     private TimeTable timeTable;
@@ -37,13 +38,21 @@ public class TimeTablePanel extends JPanel {
     setBackground(Color.YELLOW);
 
     Graphics2D g2d = (Graphics2D) g;
+
+    Font deafultFont = new Font ("Terminal", 1, 12);
+    Font bigFont = new Font ("Terminal", 1, 16);
+
     g2d.setColor(Color.BLACK);
     g2d.fillRect(0,0,timeW,dayH);
+    //
+    g2d.setFont(bigFont);
     for(int i = 0, x = timeW, y = 0; i <5; i++) {
       g2d.drawRect(x, y, dayW, dayH);
       g2d.drawString(days[i], x+10, y+30);
       x += dayW;
     }
+
+    g2d.setFont(deafultFont);
     for(int i = 0, x = 0, y = dayH; i <25; i++) {
       g2d.drawRect(x, y, timeW, timeH);
       g2d.drawString(times[i], x+10, y+15);
@@ -56,12 +65,12 @@ public class TimeTablePanel extends JPanel {
 
         cdi = timeTable.getCourseDrawInfo(index);
         g2d.setColor(cdi.getColor());
-        System.out.println("Drawing CDI :"+index + "st:" +cdi.getStartTime()+"Color:"+cdi.getColor().toString());
+        //System.out.println("Drawing CDI :"+index + "st:" +cdi.getStartTime()+"Color:"+cdi.getColor().toString());
         for(int i = 0; i < cdi.getNumberOfDays(); i++) {
             g2d.setColor(cdi.getColor());
             g2d.fillRect(timeW+(dayW*cdi.getDay(i)), dayH+(timeH*cdi.getStartTime()) ,dayW ,timeH*cdi.getDuration() );
             g2d.setColor(Color.BLACK);
-            g2d.drawString(cdi.getDisplayString(), timeW+(dayW*cdi.getDay(i))+10, dayH+(timeH*cdi.getStartTime()+20) );
+            g2d.drawString(cdi.getDisplayString(), timeW+(dayW*cdi.getDay(i))+10, dayH+(timeH*cdi.getStartTime()+15) );
         }
         index++;
         //g2d.fillRect(,0,timeW,dayH);

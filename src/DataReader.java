@@ -100,7 +100,7 @@ class DataReader {
   }
 
   public ArrayList<Course> getCourseArrayList() {
-      System.out.println("Returning course arraylist");
+      //System.out.println("Returning course arraylist");
       return courses;
 
 	  }
