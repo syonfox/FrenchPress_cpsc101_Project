@@ -64,7 +64,7 @@ public class TimeTable {
       comma = false;
       tempConfilcts = null;
       for(int j = 0; j < courses.size(); j++) {
-        if(i!=j && courses.get(i).confilctsWith(courses.get(j))) {
+        if(i!=j && courses.get(i).conflictsWith(courses.get(j))) {
           hasConflict[i] = true;
           if(comma) tempConfilcts+=", ";
           comma = true;
@@ -114,7 +114,7 @@ public class TimeTable {
       }
       st = tempC.getStartTime();
       intst = (st.getHours()*2 + st.getMinutes()/30) - 16;
-      duration = (int) tempC.getDuration()/30;
+      duration = tempC.getDuration()/30;
       displayString = tempC.getCouseID() +"-"+tempC.getComponetID()+" "
                       + tempC.getLocation().toString();
       tempCDI = new CourseDrawInfo(hasConflict[i], days, intst, duration, displayString);
