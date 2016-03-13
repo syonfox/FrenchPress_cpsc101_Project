@@ -1,4 +1,7 @@
-/**This is a panle desigend to be placed in the gui and contain a TimeTable**/
+/**This is a panle desigend to be placed in the gui and contain a TimeTable
+ *@author Kier Lindsay
+ *
+ */
 
 import javax.swing.JPanel;
 import java.awt.Color;
@@ -17,17 +20,19 @@ public class TimeTablePanel extends JPanel {
   public void draw(Graphics g) {
     //g.fillRect(0,0,getSize().getWidth(),getSize(.getHeight()));
     //some mystical constants based on the width on the dimensions
-    double calTemp;
-    int height = (int) getSize().getHeight();
-    int width = (int) getSize().getWidth();
-    int timeW = 100;
+    double calTemp;//Temporary value for calculationg values
+    int height = (int) getSize().getHeight();//height of the TimeTable Pane
+    int width = (int) getSize().getWidth();//width of the time table pane
+    int timeW = 100;  //The width of the Time box (on the left)
     calTemp = (height-40)/26;
-    int timeH = (int) calTemp;
+    int timeH = (int) calTemp;  //The height of the Time box (on the left)
     calTemp = (width-100)/5;
-    int dayW = (int) calTemp;
-    int dayH = 40;
+    int dayW = (int) calTemp; //The Width of the Day Box (top)
+    int dayH = 40; //The Hight of the Day boxes (top)
 
+    //the days of the week;
     String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
+    //all of the times to display
     String[] times = {" 8:00am", " 8:30am", " 9:00am", " 9:30am", "10:00am", "10:30am",
                       "11:00am", "11:30am", "12:00am", "12:30am", " 1:00pm",
                       " 1:30pm", " 2:00pm", " 2:30pm", " 3:00pm", " 3:30pm",
@@ -35,16 +40,20 @@ public class TimeTablePanel extends JPanel {
                       " 6:30pm", " 7:00pm", " 7:30pm", " 8:00pm", " 8:30pm",
                       };
 
+
     setBackground(Color.YELLOW);
 
     Graphics2D g2d = (Graphics2D) g;
 
+    //fonts
     Font deafultFont = new Font ("Terminal", 1, 12);
     Font bigFont = new Font ("Terminal", 1, 16);
 
+    //draw the black box in the upper left
     g2d.setColor(Color.BLACK);
     g2d.fillRect(0,0,timeW,dayH);
-    //
+
+    //draw the days of the week across the top;
     g2d.setFont(bigFont);
     for(int i = 0, x = timeW, y = 0; i <5; i++) {
       g2d.drawRect(x, y, dayW, dayH);
@@ -52,41 +61,51 @@ public class TimeTablePanel extends JPanel {
       x += dayW;
     }
 
+    //draw the times down the side
     g2d.setFont(deafultFont);
     for(int i = 0, x = 0, y = dayH; i < times.length; i++) {
       g2d.drawRect(x, y, timeW, timeH);
       g2d.drawString(times[i], x+10, y+15);
       y += timeH;
     }
-    CourseDrawInfo cdi;
-    int index = 0;
-    if(timeTable != null) {
-      while(timeTable.hasNext(index)) {
 
+    CourseDrawInfo cdi; //place to stro the courseDrawInfo
+    int index = 0; // We start at 0
+    //we only try to draw if we have stuff to draw
+    if(timeTable != null) {
+      //thie gose to the timetable and asks if there is an itam at index
+      while(timeTable.hasNext(index)) {
+        //gets the course draw info from the  timetable at index and sets it to cdi
         cdi = timeTable.getCourseDrawInfo(index);
-        g2d.setColor(cdi.getColor());
-        //System.out.println("Drawing CDI :"+index + "st:" +cdi.getStartTime()+"Color:"+cdi.getColor().toString());
+        //for every tay in the number of days that the couse happens
         for(int i = 0; i < cdi.getNumberOfDays(); i++) {
             g2d.setColor(cdi.getColor());
-
-            //System.out.println(cdi.getDisplayString() +" duration:"+cdi.getDuration()+" height:"+timeH*cdi.getDuration());
-
+            //Fills in a rectangle that takes up the space on the timetable that the course uses
             g2d.fillRect(timeW+(dayW*cdi.getDay(i)), dayH+(timeH*cdi.getStartTime()) ,dayW ,timeH*cdi.getDuration() );
             g2d.setColor(Color.BLACK);
+            //makes a black borader around the rectangle
             g2d.drawRect(timeW+(dayW*cdi.getDay(i)), dayH+(timeH*cdi.getStartTime()) ,dayW ,timeH*cdi.getDuration() );
+            //Draws the String for the cours ontop of the rectangle
             g2d.drawString(cdi.getDisplayString(), timeW+(dayW*cdi.getDay(i))+10, dayH+(timeH*cdi.getStartTime()+15) );
         }
+        //advance to the next course
         index++;
-        //g2d.fillRect(,0,timeW,dayH);
       }
     }
-    //System.out.println("width: "+getSize().getWidth() +"  height: "+ getSize().getHeight());
   }
 
+  /**
+   * Allows you to set the timeTable you want to display
+   * @param tt the TimeTable
+   */
   public void setTimeTable(TimeTable tt) {
     timeTable = tt;
   }
 
+  /**
+   * Let it Paint you a picture
+   * @param g A graphics
+   */
   @Override
   public void paintComponent(Graphics g) {
     super.paintComponent(g);

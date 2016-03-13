@@ -1,4 +1,7 @@
-/**This will have the info TimeTablePanleNeeds to draw a course**/
+/**This will have the info TimeTablePanleNeeds to draw a course
+*@author Kier Lindsay
+*@date 2016-03
+*/
 import java.awt.Color;
 
 public class CourseDrawInfo {

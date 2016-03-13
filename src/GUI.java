@@ -1,5 +1,6 @@
 /**
 * @author Rodrigo Nicoletti
+* @author Kier Lindsay
 * @since 2016-03-06
 **/
 
@@ -175,7 +176,7 @@ public class GUI {
 				for(int i = 0; i < timeTableListModel.getSize(); i++){
 					selectedCourses.add(timeTableListModel.getElementAt(i));
 				}
-				
+
 				ArrayList<Course> c = cm.toCourseArrayList(selectedCourses);
 
 
@@ -201,6 +202,7 @@ public class GUI {
 
 		JLabel lbSearch = new JLabel("Search ");
 		JTextField tfSearch = new JTextField(20);
+
 		JPanel search = new JPanel(new BorderLayout());
 		search.add(lbSearch, BorderLayout.WEST);
 		search.add(tfSearch, BorderLayout.EAST);
