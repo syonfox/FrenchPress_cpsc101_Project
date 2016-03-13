@@ -1,10 +1,13 @@
 /** The Schedule class is a class meant to interact with both courses and the graphical interface. 
+
+import com.sun.org.apache.xpath.internal.operations.String;
+import java.sql.Time;
+import java.util.ArrayList;
 *It will take in a list of courses selected through the graphical interface by the user. 
 *After obtaining a list of copurses it will be able to check for any conflicts and output information in a format ready to be displayed by the graphical interface.
 *
 *
 **/
-
 import java.util.ArrayList;
 import java.sql.Time;
 
@@ -14,6 +17,8 @@ public class TimeTable {
   private ArrayList<Course> courses;
   private ArrayList<CourseDrawInfo> courseDI;
   //private int numberOfCourses;
+  private ArrayList<String> conficts;
+  private boolean[] hasConflict;
 
 
   public TimeTable(String name) {
@@ -31,6 +36,10 @@ public class TimeTable {
     //int numberOfCourses = cou;
   }
 
+  public String[] getConflicts() {
+    return conficts.toArray(new String[conficts.size()]);
+  }
+
   public void add(Course courseToAdd) {
     //may want to cheack if the course is already in the list.
     courses.add(courseToAdd);
@@ -44,6 +53,31 @@ public class TimeTable {
       }
     }
   }
+
+  public void cheackConfilcts() {
+    conficts = new ArrayList<String>();
+    hasConflict = new boolean[courses.size()];
+    String tempConfilcts;
+    boolean comma;
+    for(int i = 0; i < courses.size(); i++) {
+      hasConflict[i] = false;
+      comma = false;
+      tempConfilcts = null;
+      for(int j = 0; j < courses.size(); j++) {
+        if(i!=j && courses.get(i).confilctsWith(courses.get(j))) {
+          hasConflict[i] = true;
+          if(comma) tempConfilcts+=", ";
+          comma = true;
+          tempConfilcts += courses.get(j).getCouseID()+"-"+courses.get(j).getComponetID();
+        }
+      }
+      if(hasConflict[i]) {
+        conficts.add(courses.get(i).getCouseID()+"-"+courses.get(i).getComponetID()
+                      + "Conflicts with: " + tempConfilcts);
+      }
+    }
+  }
+
   @SuppressWarnings("deprecation")
   public void prepareCourseDrawInfo(){
     courseDI = new ArrayList<CourseDrawInfo>();
@@ -83,7 +117,7 @@ public class TimeTable {
       duration = (int) tempC.getDuration()/30;
       displayString = tempC.getCouseID() +"-"+tempC.getComponetID()+" "
                       + tempC.getLocation().toString();
-      tempCDI = new CourseDrawInfo(false, days, intst, duration, displayString);
+      tempCDI = new CourseDrawInfo(hasConflict[i], days, intst, duration, displayString);
       courseDI.add(tempCDI);
     }
 
