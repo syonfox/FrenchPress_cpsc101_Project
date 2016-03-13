@@ -85,6 +85,9 @@ public class Course {
    public boolean getIsForced(){
       return true;
    }
+   
+   
+   
 	 @SuppressWarnings("deprecation")
    public boolean conflictsWith(Course another){
 		int sT1=  startTime.getHours()*60+startTime.getMinutes();
@@ -101,6 +104,8 @@ public class Course {
 		return false;
 
 	}
+   
+   
     public boolean equals(Course course){
     	if(getLocation().equals(course.getLocation()) && getProfessorName().equals(course.getProfessorName()))
     		{
