@@ -3,6 +3,8 @@
 * @author Kier Lindsay
 * @since 2016-03-06
 **/
+
+//import seaglasslookandfeel;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -16,6 +18,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
+import javax.swing.ListModel;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -59,33 +62,9 @@ public class GUI {
 
 	private static TimeTable timeTable;
 	private static JTextArea taConflictBox;
+
+
 	public static void main(String args[]){
-
-		UIManager.installLookAndFeel("the look and feel",
-				"com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
-
-		System.out.println(UIManager.getSystemLookAndFeelClassName());
-		try {
-            // Set cross-platform Java L&F (also called "Metal")
-        UIManager.setLookAndFeel(
-            "com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
-	    }
-	    catch (UnsupportedLookAndFeelException e) {
-	       // handle exception
-				 //System.out.println(e.toString());
-	    }
-	    catch (ClassNotFoundException e) {
-	       // handle exception
-				 //System.out.println(e.toString());
-	    }
-	    catch (InstantiationException e) {
-	       // handle exception
-				 //System.out.println(e.toString());
-	    }
-	    catch (IllegalAccessException e) {
-	       // handle exception
-				 //System.out.println(e.toString());
-	    }
 
 			startGUI();
 			guiManager();
@@ -110,6 +89,12 @@ public class GUI {
 
 	//@SuppressWarnings({"rawtypes","unchecked"})
 	public static void guiManager(){
+
+		try {
+    	UIManager.setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
+		} catch (Exception e) {
+    	e.printStackTrace();
+		}
 
 		ttp = new TimeTablePanel();
 		ttp.setTimeTable(timeTable);
@@ -223,8 +208,9 @@ public class GUI {
 
 
 
-		JLabel lbSearch = new JLabel("Search ");
-		tfSearch = new JTextField(20);
+		//JLabel lbSearch = new JLabel("Search");
+		JButton btnSearch = new JButton("Search");
+		tfSearch = new JTextField(15);
 		tfSearch.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -245,9 +231,9 @@ public class GUI {
 			}
 		});
 
-		JPanel searchP = new JPanel(new BorderLayout());
-		searchP.add(lbSearch, BorderLayout.WEST);
-		searchP.add(tfSearch, BorderLayout.EAST);
+		JPanel searchP = new JPanel(new GridLayout(1,2));
+		searchP.add(btnSearch);
+		searchP.add(tfSearch);
 		searchP.setMaximumSize(new Dimension(250, 30));
 
 		//you have to yous the same type of things as for the JList insted of a string array.
@@ -297,28 +283,12 @@ public class GUI {
 			}
 		});
 
-		cbLocation = new JComboBox(subjectStrings);
-		cbLocation.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println(cbLocation.getSelectedItem());
-			}
-		});
-
-		cbTeacher = new JComboBox(subjectStrings);
-		cbTeacher.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println(cbTeacher.getSelectedItem());
-			}
-		});
 
 
-		JPanel filterP = new JPanel(new GridLayout(2, 2));
+		JPanel filterP = new JPanel(new GridLayout(1, 2));
 		filterP.add(cbSubject);
 		filterP.add(cbLevel);
-		filterP.add(cbLocation);
-		filterP.add(cbTeacher);
+		filterP.setMaximumSize(new Dimension(250, 35));
 
 		courseList = new JList<String>(arrCourses);
 		JScrollPane courseListSP = new JScrollPane();
@@ -336,6 +306,23 @@ public class GUI {
 			}
 		});
 
+		JButton btnAddAll = new JButton("Add All");
+		btnAddAll.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				//timeTableListModel.addElement(courseList.getSelectedValue());
+				ListModel<String> tempModel = courseList.getModel();
+				for(int i = 0; i < tempModel.getSize(); i++) {
+					timeTableListModel.addElement(tempModel.getElementAt(i));
+				}
+				timeTableList.setModel(timeTableListModel);
+			}
+		});
+
+		JPanel addP = new JPanel(new GridLayout(1,2));
+		addP.add(btnAdd);
+		addP.add(btnAddAll);
+		addP.setMaximumSize(new Dimension(250, 35));
+
 		JButton btnDel = new JButton("Del Course");
 		btnDel.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
@@ -343,14 +330,24 @@ public class GUI {
 				timeTableList.setModel(timeTableListModel);
 			}
 		});
+		JButton btnDelAll = new JButton("Del All");
+		btnDelAll.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				timeTableListModel = new DefaultListModel<String>();
+				timeTableList.setModel(timeTableListModel);
+			}
+		});
 
+		JPanel delP = new JPanel(new GridLayout(1,2));
+		delP.add(btnDel);
+		delP.add(btnDelAll);
+		delP.setMaximumSize(new Dimension(250, 35));
 
-
-		JPanel editP = new JPanel(new BorderLayout());
+		/*JPanel editP = new JPanel(new BorderLayout());
 		editP.add(btnAdd, BorderLayout.NORTH);
 		editP.add(btnDel, BorderLayout.CENTER);
 		editP.setMaximumSize(new Dimension(250, 60));
-
+		*/
 		String[] emptyDisplay = {""};
 		timeTableList = new JList<String>(emptyDisplay);
 		JScrollPane timeTableListSP = new JScrollPane();
@@ -374,8 +371,9 @@ public class GUI {
 		options.add(filterP);
 		options.add(searchP);
 		options.add(courseListSP);
-		options.add(editP);
+		options.add(addP);
 		options.add(timeTableListSP);
+		options.add(delP);
 		options.add(makeTimeTable);
 
 		frame.add(options, BorderLayout.WEST);
