@@ -41,36 +41,71 @@ public class TimeTablePanel extends JPanel {
                       };
 
 
-    setBackground(Color.YELLOW);
+
 
     Graphics2D g2d = (Graphics2D) g;
 
     //fonts
     Font deafultFont = new Font ("Terminal", 1, 12);
     Font bigFont = new Font ("Terminal", 1, 16);
-
+    Color evenColorTime = new Color(164,164,164);
+    Color oddColorTime  = new Color(142,142,142);
+    Color evenColorDay = new Color(164,164,164, 128);
+    Color oddColorDay  = new Color(142,142,142, 128);
     //draw the black box in the upper left
     g2d.setColor(Color.BLACK);
     g2d.fillRect(0,0,timeW,dayH);
-
-    //draw the days of the week across the top;
-    g2d.setFont(bigFont);
-    for(int i = 0, x = timeW, y = 0; i <5; i++) {
-      g2d.drawRect(x, y, dayW, dayH);
-      g2d.drawString(days[i], x+10, y+30);
-      x += dayW;
-    }
+    setBackground(oddColorTime);
 
     //draw the times down the side
     g2d.setFont(deafultFont);
+    boolean isEvenLine = false;
+
     for(int i = 0, x = 0, y = dayH; i < times.length; i++) {
+
+      if(isEvenLine) {
+        g2d.setColor(evenColorTime);
+        isEvenLine = false;
+        g2d.fillRect(x, y, width, timeH);
+
+      } else {
+        g2d.setColor(oddColorTime);
+        isEvenLine = true;
+        g2d.fillRect(x, y, width, timeH);
+      }
+      g2d.setColor(Color.BLACK);
       g2d.drawRect(x, y, timeW, timeH);
       g2d.drawString(times[i], x+10, y+15);
       y += timeH;
     }
 
+    //draw the days of the week across the top;
+    g2d.setFont(bigFont);
+    isEvenLine = false;
+    for(int i = 0, x = timeW, y = 0; i <5; i++) {
+
+      if(isEvenLine) {
+        g2d.setColor(evenColorDay);
+        isEvenLine = false;
+        g2d.fillRect(x, y, dayW, height);
+
+      } else {
+        g2d.setColor(oddColorDay);
+        isEvenLine = true;
+        g2d.fillRect(x, y, dayW, height);
+      }
+
+      g2d.setColor(Color.BLACK);
+      g2d.drawRect(x, y, dayW, dayH);
+      g2d.drawString(days[i], x+10, y+30);
+      x += dayW;
+    }
+
+
+
     CourseDrawInfo cdi; //place to stro the courseDrawInfo
     int index = 0; // We start at 0
+    g2d.setFont(deafultFont);
     //we only try to draw if we have stuff to draw
     if(timeTable != null) {
       //thie gose to the timetable and asks if there is an itam at index

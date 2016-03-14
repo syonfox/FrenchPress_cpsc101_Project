@@ -14,8 +14,8 @@ public class CourseDrawInfo {
   private String displayString;
 
   public CourseDrawInfo(boolean conflict, int[] idays, int st, int iduration, String ds){
-    if(conflict) color = Color.RED;
-    else color = Color.GREEN;
+    if(conflict) color = new Color(225, 102, 102, 200);
+    else color = new Color(102, 225, 102, 200);
 
     days = idays;
     startTime = st;

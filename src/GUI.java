@@ -257,7 +257,7 @@ public class GUI {
 		conflictBoxSP.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		conflictBoxSP.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
 		taConflictBox.setMinimumSize(new Dimension(250, 100));
-		conflictBoxSP.setPreferredSize(new Dimension(250, 200));
+		conflictBoxSP.setPreferredSize(new Dimension(250, 100));
 		conflictBoxSP.getViewport().add(taConflictBox);
 
 

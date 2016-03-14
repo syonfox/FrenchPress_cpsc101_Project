@@ -116,7 +116,7 @@ public class TimeTable {
       intst = (st.getHours()*2 + st.getMinutes()/30) - 16;
       duration = tempC.getDuration()/30;
       displayString = tempC.getCouseID() +"-"+tempC.getComponetID()+" "
-                      + tempC.getLocation().toString();
+                      + tempC.getLocation().getRoomNumber();
       tempCDI = new CourseDrawInfo(hasConflict[i], days, intst, duration, displayString);
       courseDI.add(tempCDI);
     }
@@ -125,7 +125,6 @@ public class TimeTable {
   public boolean hasNext(int i) {
     //System.out.println("hasNext:"+i+"size:"+courseDI.size()+(i < courseDI.size()));
     return (i < courseDI.size());
-
   }
   public CourseDrawInfo getCourseDrawInfo(int i) {
     return courseDI.get(i);
