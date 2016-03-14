@@ -144,7 +144,7 @@ public class GUI {
 				    	dr.loadData();
 				    	dr.makeCourseArray();
 				    	courses = dr.getCourseArrayList();
-
+				    	cm = new CourseManager(courses);
 				    	DefaultListModel<String> model = new DefaultListModel<String>();
 				    	for(int i = 0; i < courses.size(); i++)
 				    		model.addElement(courses.get(i).getCouseID() + " - " + courses.get(i).getComponetID());
@@ -170,16 +170,16 @@ public class GUI {
 		JButton btnMakeTimeTable = new JButton("Display Selected Courses");
 		btnMakeTimeTable.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-
 				ArrayList<String> selectedCourses = new ArrayList<String>();
 
-				for(int i = 0; i < timeTableListModel.getSize(); i++)
+				for(int i = 0; i < timeTableListModel.getSize(); i++){
 					selectedCourses.add(timeTableListModel.getElementAt(i));
+				}
+				
+				ArrayList<Course> c = cm.toCourseArrayList(selectedCourses);
 
-				//ArrayList<Course> c = cm.toCourseArrayList(selectedCourses);
 
-
-				timeTable = new TimeTable("Test Time Table", courses);
+				timeTable = new TimeTable("Test Time Table", c);
 				timeTable.cheackConfilcts();
 				timeTable.prepareCourseDrawInfo();
 				ttp.setTimeTable(timeTable);

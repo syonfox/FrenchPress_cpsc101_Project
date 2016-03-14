@@ -4,11 +4,19 @@ public class CourseManager {
 	
 	ArrayList<Course> courses;
 	
+	public CourseManager(ArrayList<Course> c){
+		this.courses = c;
+	}
+	
 	public ArrayList<Course> toCourseArrayList(ArrayList<String> s){
-		courses = new ArrayList<Course>();
+		ArrayList<Course> selectedCourses = new ArrayList<Course>();
 		
-		
-		
-		return courses;
+		for(int i = 0; i < s.size(); i++){
+			for(int j = 0; j < courses.size(); j++){
+				if(courses.get(j).getCouseID().equals(s.get(i).substring(0, 7)))
+					selectedCourses.add(courses.get(j));
+			}
+		}
+		return selectedCourses;
 	}
 }
