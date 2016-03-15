@@ -16,7 +16,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.BufferedWriter;
-
+import java.lang.Throwable;
 import java.sql.Time;
 
 
@@ -41,9 +41,9 @@ class DataReader {
 
 
   /** Loads a file into an ArrayList (fileLines) **/
-  public void loadData() {
+  public void loadData() throws Exception{
     if(fileLines.isEmpty()) {
-      try {
+      //try {
         //new buffered reader
 	      BufferedReader fileIn = new BufferedReader(new FileReader(file));
 	      String[] lineData;//an array for each line in the file
@@ -69,12 +69,12 @@ class DataReader {
 	        line = fileIn.readLine();
 	      }
         fileLines.remove(0);
-      } catch(FileNotFoundException e) {
+    /*  } catch(FileNotFoundException e) {
 	      System.out.println("Error: " + file.getAbsolutePath() + " File Not found");
 	      //here we could add somthing to make maby a popup if there is an error.
       } catch(IOException e) {
         System.out.println("Error: IO Exeption");
-      }
+      }*/
     }
   }
 
@@ -107,7 +107,7 @@ class DataReader {
 	  }
 
 
-  public void makeCourseArray() {
+  public void makeCourseArray() throws Exception {
 	  Course c;
 
 	  Date sDate = new Date();

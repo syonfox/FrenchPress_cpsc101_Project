@@ -142,7 +142,7 @@ public class GUI {
 
 							} catch (Exception e) {
 								System.out.println("There is a problem with the file.");
-								e.printStackTrace();
+								//e.printStackTrace();
 							}//CATCH
 						}//IF
 					}//if
