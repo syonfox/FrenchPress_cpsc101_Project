@@ -10,10 +10,11 @@ public class CourseManager {
 	
 	public ArrayList<Course> toCourseArrayList(ArrayList<String> s){
 		ArrayList<Course> selectedCourses = new ArrayList<Course>();
-		
+		String courseIDAndSection = "";
 		for(int i = 0; i < s.size(); i++){
 			for(int j = 0; j < courses.size(); j++){
-				if(courses.get(j).getCouseID().equals(s.get(i).substring(0, 7)))
+				courseIDAndSection = courses.get(j).getCouseID() + "-" + courses.get(j).getComponetID();
+				if(courseIDAndSection.equals(s.get(i).substring(0, 10)))
 					selectedCourses.add(courses.get(j));
 			}
 		}

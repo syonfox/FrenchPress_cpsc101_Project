@@ -8,13 +8,9 @@
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
@@ -32,8 +28,6 @@ import javax.swing.JTextField;
 import javax.swing.JViewport;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
@@ -46,6 +40,8 @@ public class GUI {
 	private static JList<String> timeTableList;
 	private static DefaultListModel<String> timeTableListModel = new DefaultListModel<String>();
 	private static DefaultListModel<String> courseListModel = new DefaultListModel<String>(); //this is for the upper list
+
+	private static boolean fileLoaded = false;
 
 	private static final int WIDTH = 400;
 	private static final int HEIGHT = 400;
@@ -64,8 +60,8 @@ public class GUI {
 	private static JTextArea taConflictBox;
 
 
-	public static void main(String args[]){
 
+	public static void main(String args[]){
 			startGUI();
 			guiManager();
 		}
@@ -141,20 +137,10 @@ public class GUI {
 				    	dr.makeCourseArray();
 				    	courses = dr.getCourseArrayList();
 				    	cm = new CourseManager(courses);
-/*<<<<<<< HEAD
-				    	courseListModel = new DefaultListModel<String>();
-				    	for(int i = 0; i < courses.size(); i++)
-				    		courseListModel.addElement(
-									courses.get(i).getCouseID() + "-"
-								+ courses.get(i).getComponetID() + " "
-								+ courses.get(i).getLocation().getRoomNumber() + " "
-								+ courses.get(i).getProfessorName()
-							);
 
-				    	courseList.setModel(courseListModel);
-=======*/
 				    	displayAllCourses();
 
+				    	fileLoaded = true;
 
 					} catch (Exception e) {
 						System.out.println("There is a problem with the file.");
@@ -176,26 +162,28 @@ public class GUI {
 		JButton btnMakeTimeTable = new JButton("Display Selected Courses");
 		btnMakeTimeTable.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				ArrayList<String> selectedCourses = new ArrayList<String>();
+				if(fileLoaded){
+					ArrayList<String> selectedCourses = new ArrayList<String>();
 
-				for(int i = 0; i < timeTableListModel.getSize(); i++){
-					selectedCourses.add(timeTableListModel.getElementAt(i));
-				}
-
-
-				ArrayList<Course> c = cm.toCourseArrayList(selectedCourses);
+					for(int i = 0; i < timeTableListModel.getSize(); i++){
+						selectedCourses.add(timeTableListModel.getElementAt(i));
+					}
 
 
-				timeTable = new TimeTable("Test Time Table", c);
-				timeTable.cheackConfilcts();
-				timeTable.prepareCourseDrawInfo();
-				ttp.setTimeTable(timeTable);
-				ttp.repaint();
+					ArrayList<Course> c = cm.toCourseArrayList(selectedCourses);
 
-				String[] tempConfilcts = timeTable.getConflicts();
-				taConflictBox.setText("");
-				for(int i = 0; i < tempConfilcts.length; i++) {
-					taConflictBox.append(tempConfilcts[i]);
+
+					timeTable = new TimeTable("Test Time Table", c);
+					timeTable.cheackConfilcts();
+					timeTable.prepareCourseDrawInfo();
+					ttp.setTimeTable(timeTable);
+					ttp.repaint();
+
+					String[] tempConfilcts = timeTable.getConflicts();
+					taConflictBox.setText("");
+					for(int i = 0; i < tempConfilcts.length; i++) {
+						taConflictBox.append(tempConfilcts[i]);
+					}
 				}
 			}
 		});
@@ -246,10 +234,11 @@ public class GUI {
 		cbSubject.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String s = cbSubject.getSelectedItem().toString();
-				displaySubjects(s);
-				//cbLevel.setSelectedItem(levels[0]);
-				setComboBoxLevel(0);
+				if(fileLoaded){
+					String s = cbSubject.getSelectedItem().toString();
+					displaySubjects(s);
+					setComboBoxLevel(0);
+				}
 			}
 
 		});
@@ -260,25 +249,23 @@ public class GUI {
 		cbLevel.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String s = cbLevel.getSelectedItem().toString();
+				if(fileLoaded){
+					String s = cbLevel.getSelectedItem().toString();
 
-				if(s.equals("All levels")){
-					displaySubjects(cbSubject.getSelectedItem().toString());
-				}
-				else{
-					displaySubjects(cbSubject.getSelectedItem().toString());
-					ArrayList<String> displayedCourses = getListContent();
-					ArrayList<String> toDisplay = new ArrayList<String>();
-					courseListModel.removeAllElements();
-					for(int i=0;i<displayedCourses.size();i++){
-						if(displayedCourses.get(i).substring(4, 5).equals(s))
-							toDisplay.add(displayedCourses.get(i));
+					if(s.equals("All levels")){
+						displaySubjects(cbSubject.getSelectedItem().toString());
 					}
-					for(int i = 0; i < toDisplay.size(); i++)
-						courseListModel.addElement(toDisplay.get(i));
+					else{
+						displaySubjects(cbSubject.getSelectedItem().toString());
+						ArrayList<String> displayedCourses = getListContent();
+						courseListModel.removeAllElements();
+						for(int i=0;i<displayedCourses.size();i++){
+							if(displayedCourses.get(i).substring(4, 5).equals(s))
+								courseListModel.addElement(displayedCourses.get(i));
+						}
 
-
-					courseList.setModel(courseListModel);
+						courseList.setModel(courseListModel);
+					}
 				}
 			}
 		});
@@ -301,8 +288,14 @@ public class GUI {
 		JButton btnAdd = new JButton("Add Course");
 		btnAdd.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
-				timeTableListModel.addElement(courseList.getSelectedValue());
-				timeTableList.setModel(timeTableListModel);
+				if(fileLoaded){
+					for(int i = 0; i < timeTableListModel.size(); i++){
+						if(timeTableListModel.getElementAt(i).equals(courseList.getSelectedValue()))
+							return;
+					}
+					timeTableListModel.addElement(courseList.getSelectedValue());
+					timeTableList.setModel(timeTableListModel);
+				}
 			}
 		});
 
@@ -362,6 +355,7 @@ public class GUI {
 		conflictBoxSP.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
 		taConflictBox.setMinimumSize(new Dimension(250, 100));
 		conflictBoxSP.setPreferredSize(new Dimension(250, 100));
+		taConflictBox.setEditable(false);
 		conflictBoxSP.getViewport().add(taConflictBox);
 
 
