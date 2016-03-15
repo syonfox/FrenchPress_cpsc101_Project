@@ -90,11 +90,12 @@ public class GUI {
 
 	//@SuppressWarnings({"rawtypes","unchecked"})
 	public static void guiManager(){
-
-		try {
-    	UIManager.setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
-		} catch (Exception e) {
-    	e.printStackTrace();
+		if(System.getProperty("os.name").equals("Linux")) {
+			try {
+	    	UIManager.setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
+			} catch (Exception e) {
+	    	e.printStackTrace();
+			}
 		}
 
 		ttp = new TimeTablePanel();
@@ -351,7 +352,7 @@ public class GUI {
 		//timeTableList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		JScrollPane timeTableListSP = new JScrollPane();
 		timeTableListSP.getViewport().add(timeTableList);
-		timeTableListSP.setPreferredSize(new Dimension(250, 200));
+		timeTableListSP.setPreferredSize(new Dimension(250, 560));
 
 
 		taConflictBox = new JTextArea();
@@ -361,13 +362,14 @@ public class GUI {
 		conflictBoxSP.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		conflictBoxSP.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
 		taConflictBox.setMinimumSize(new Dimension(250, 100));
-		conflictBoxSP.setPreferredSize(new Dimension(250, 100));
+		//conflictBoxSP.setMaximumSize(new Dimension(100000, 400));
 		conflictBoxSP.getViewport().add(taConflictBox);
 
 		JSplitPane ttpConflictBoxSplitPane =
 						new JSplitPane(JSplitPane.VERTICAL_SPLIT, ttpSP, conflictBoxSP);
 		ttpConflictBoxSplitPane.setOneTouchExpandable(true);
 		ttpConflictBoxSplitPane.setDividerLocation(560);
+		ttpConflictBoxSplitPane.setResizeWeight(.8d);
 
 
 		JPanel optionsTopP = new JPanel();
@@ -390,7 +392,7 @@ public class GUI {
 				new JSplitPane(JSplitPane.VERTICAL_SPLIT, optionsTopP, optionsBottomP);
 		optionsSplitPane.setOneTouchExpandable(true);
 		optionsSplitPane.setDividerLocation(420);
-
+		optionsSplitPane.setResizeWeight(.64d);
 		frame.add(optionsSplitPane, BorderLayout.WEST);
 		frame.add(ttpConflictBoxSplitPane, BorderLayout.CENTER);
 		//frame.add(conflictBoxSP, BorderLayout.SOUTH);

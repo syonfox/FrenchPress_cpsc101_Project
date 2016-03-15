@@ -11,11 +11,11 @@ public class Course {
 	private String componetID;
 	private String subject;
 	private int level;
-		
+
 
 	private CourseDate date;
 	private Time startTime;
-	
+
 
 	private Location location;
 	private String professorName;
@@ -113,7 +113,7 @@ public class Course {
 	    }
 	    return false;
 	  }
-         @check whether two courses are conflicted
+    //@check whether two courses are conflicted
 	 @SuppressWarnings("deprecation")
 	public boolean conflictsWith(Course another){
 		 if(compareDays(another)) {
@@ -140,7 +140,7 @@ public class Course {
 			}
 		return false;
 	}
-	@check two courses whether are same
+	//@check two courses whether are same
 	public boolean equals(Course course){
     		if(getLocation().equals(course.getLocation()) && getProfessorName().equals(course.getProfessorName()))
     		{
@@ -149,7 +149,7 @@ public class Course {
     		return false;
 
 	 }
-   
+
 
     	public String toString(){
     	String days = "";
