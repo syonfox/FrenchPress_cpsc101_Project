@@ -33,7 +33,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class GUI {
 
 	private static JFrame frame;
@@ -42,6 +42,7 @@ public class GUI {
 	private static JList<String> courseList;
 	private static JList<String> timeTableList;
 	private static DefaultListModel<String> timeTableListModel = new DefaultListModel<String>();
+	private static DefaultListModel<String> courseListModel = new DefaultListModel<String>();
 
 	private static final int WIDTH = 400;
 	private static final int HEIGHT = 400;
@@ -52,6 +53,8 @@ public class GUI {
 	private static JComboBox cbLevel;
 	private static JComboBox cbLocation;
 	private static JComboBox cbTeacher;
+
+	private static JTextField tfSearch;
 
 	private static TimeTable timeTable;
 	private static JTextArea taConflictBox;
@@ -152,11 +155,16 @@ public class GUI {
 				    	dr.makeCourseArray();
 				    	courses = dr.getCourseArrayList();
 				    	cm = new CourseManager(courses);
-				    	DefaultListModel<String> model = new DefaultListModel<String>();
+				    	courseListModel = new DefaultListModel<String>();
 				    	for(int i = 0; i < courses.size(); i++)
-				    		model.addElement(courses.get(i).getCouseID() + " - " + courses.get(i).getComponetID());
+				    		courseListModel.addElement(
+									courses.get(i).getCouseID() + "-"
+								+ courses.get(i).getComponetID() + " "
+								+ courses.get(i).getLocation().getRoomNumber() + " "
+								+ courses.get(i).getProfessorName()
+							);
 
-				    	courseList.setModel(model);
+				    	courseList.setModel(courseListModel);
 
 					} catch (Exception e) {
 						System.out.println("There is a problem with the file.");
@@ -209,12 +217,31 @@ public class GUI {
 
 
 		JLabel lbSearch = new JLabel("Search ");
-		JTextField tfSearch = new JTextField(20);
+		tfSearch = new JTextField(20);
+		tfSearch.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String searchString = tfSearch.getText(); //ss = serchString
+				System.out.println(tfSearch.getText());
+				DefaultListModel<String> searchListModel = new DefaultListModel<String>();
 
-		JPanel search = new JPanel(new BorderLayout());
-		search.add(lbSearch, BorderLayout.WEST);
-		search.add(tfSearch, BorderLayout.EAST);
-		search.setMaximumSize(new Dimension(250, 30));
+				String courseListItem;
+				boolean isValid;
+				for(int i = 0; i < courseListModel.getSize(); i++) {
+					courseListItem = courseListModel.get(i);
+					isValid = superSearch(searchString, courseListItem);
+					if(isValid) {
+						searchListModel.addElement(courseListModel.get(i));
+					}
+				}
+				courseList.setModel(searchListModel);
+			}
+		});
+
+		JPanel searchP = new JPanel(new BorderLayout());
+		searchP.add(lbSearch, BorderLayout.WEST);
+		searchP.add(tfSearch, BorderLayout.EAST);
+		searchP.setMaximumSize(new Dimension(250, 30));
 
 		//you have to yous the same type of things as for the JList insted of a string array.
 		//Start of the Filter Box
@@ -311,7 +338,7 @@ public class GUI {
 
 		options.add(loadFile);
 		options.add(filterP);
-		options.add(search);
+		options.add(searchP);
 		options.add(courseListSP);
 		options.add(editP);
 		options.add(timeTableListSP);
@@ -322,5 +349,25 @@ public class GUI {
 		frame.add(conflictBoxSP, BorderLayout.SOUTH);
 		frame.pack();
 		frame.setVisible(true);
+	}
+
+	private static boolean superSearch(String ss, String sts) {
+		//ss is search string and sts is string to search
+		boolean sucsess = false;
+		boolean smallSuc;
+		for(int i = 0; i < sts.length()-ss.length()+1; i++) {
+			smallSuc = true;
+			for(int j = 0; j < ss.length(); j++) {
+				if(ss.charAt(j)!=sts.charAt(i+j)) {
+					smallSuc = false;
+					break;
+				}
+			}
+			if(smallSuc) {
+				sucsess = true;
+				break;
+			}
+		}
+		return sucsess;
 	}
 }
