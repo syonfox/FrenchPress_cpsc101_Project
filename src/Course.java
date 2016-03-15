@@ -1,4 +1,7 @@
-//package cpsc101project;
+
+/**
+* @author Jiangtao Qiu
+**/
 import java.sql.Time;
 import java.util.ArrayList;
 public class Course {
@@ -22,7 +25,7 @@ public class Course {
 	private boolean isForced=false;
 
 	private ArrayList<String> daysOfWeek;
-
+        //information getter and setter methods
 	public Course(){
 		daysOfWeek = new ArrayList<String>();
 	}
@@ -83,24 +86,24 @@ public class Course {
 		this.professorName=p;
 	}
 
-   public void setIsForced(boolean isforced){
-      this.isForced= isforced;
-   }
-   public boolean getIsForced(){
-      return true;
-   }
-   public void setSubject(String s){
+   	public void setIsForced(boolean isforced){
+	 this.isForced= isforced;
+	  }
+ 	public boolean getIsForced(){
+	  return true;
+   	}
+   	public void setSubject(String s){
 	   this.subject=s;
-   }
-   public String getSubject(){
+	}
+   	public String getSubject(){
 	   return subject;
-   }
-   public void setLevel(int l){
+   	}
+   	public void setLevel(int l){
 	   this.level = l;
-   }
-   public int getLevel(){
+   	}
+   	public int getLevel(){
 	   return level;
-   }
+   	}
 	public boolean compareDays(Course other){
 		for(int i = 0; i < daysOfWeek.size(); i++){
 	    for(int j = 0; j < other.getDaysOfWeek().size(); j++){
@@ -110,9 +113,9 @@ public class Course {
 	    }
 	    return false;
 	  }
-
+         @check whether two courses are conflicted
 	 @SuppressWarnings("deprecation")
-   public boolean conflictsWith(Course another){
+	public boolean conflictsWith(Course another){
 		 if(compareDays(another)) {
 				int sT1=  startTime.getHours()*60+startTime.getMinutes();
 				int sT2= another.startTime.getHours()*60+another.startTime.getMinutes();
@@ -137,18 +140,18 @@ public class Course {
 			}
 		return false;
 	}
-
-    public boolean equals(Course course){
-    	if(getLocation().equals(course.getLocation()) && getProfessorName().equals(course.getProfessorName()))
+	@check two courses whether are same
+	public boolean equals(Course course){
+    		if(getLocation().equals(course.getLocation()) && getProfessorName().equals(course.getProfessorName()))
     		{
     		return true;
     		}
     		return false;
 
-    }
+	 }
    
 
-    public String toString(){
+    	public String toString(){
     	String days = "";
     	for(int i=0;i<daysOfWeek.size();i++)
     		days += daysOfWeek.get(i) + " ";
