@@ -289,22 +289,24 @@ public class GUI {
 		JButton btnAdd = new JButton("Add Course");
 		btnAdd.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
-				ArrayList<String> addList = (ArrayList) courseList.getSelectedValuesList();
 				if(fileLoaded) {
-					boolean shouldAdd;
-					for(int i = 0; i < addList.size(); i++){
-						shouldAdd = true;
-						for(int j = 0; j < timeTableListModel.size(); j++){
-							if(timeTableListModel.getElementAt(j).equals(addList.get(i))){
-								shouldAdd = false;
-								break;
+					ArrayList<String> addList = (ArrayList) courseList.getSelectedValuesList();
+					if(fileLoaded) {
+						boolean shouldAdd;
+						for(int i = 0; i < addList.size(); i++){
+							shouldAdd = true;
+							for(int j = 0; j < timeTableListModel.size(); j++){
+								if(timeTableListModel.getElementAt(j).equals(addList.get(i))){
+									shouldAdd = false;
+									break;
+								}
+							}
+							if(shouldAdd) {
+								timeTableListModel.addElement(addList.get(i));
 							}
 						}
-						if(shouldAdd) {
-							timeTableListModel.addElement(addList.get(i));
-						}
+						timeTableList.setModel(timeTableListModel);
 					}
-					timeTableList.setModel(timeTableListModel);
 				}
 			}
 		});
@@ -312,12 +314,26 @@ public class GUI {
 		JButton btnAddAll = new JButton("Add All");
 		btnAddAll.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
+				if(fileLoaded) {
 				//timeTableListModel.addElement(courseList.getSelectedValue());
-				ListModel<String> tempModel = courseList.getModel();
-				for(int i = 0; i < tempModel.getSize(); i++) {
-					timeTableListModel.addElement(tempModel.getElementAt(i));
+					ListModel<String> tempModel = courseList.getModel();
+					boolean shouldAdd;
+					for(int i = 0; i < tempModel.getSize(); i++) {
+
+
+						shouldAdd = true;
+						for(int j = 0; j < timeTableListModel.size(); j++){
+							if(timeTableListModel.getElementAt(j).equals(tempModel.getElementAt(i))){
+								shouldAdd = false;
+								break;
+							}
+						}
+						if(shouldAdd) {
+							timeTableListModel.addElement(tempModel.getElementAt(i));
+						}
+					}
+					timeTableList.setModel(timeTableListModel);
 				}
-				timeTableList.setModel(timeTableListModel);
 			}
 		});
 
