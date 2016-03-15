@@ -7,14 +7,18 @@
 //import seaglasslookandfeel;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.event.DocumentListener;
+import javax.swing.event.DocumentEvent;
 import java.io.File;
 import java.util.ArrayList;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.ListModel;
+//import javax.swing.ListSelectionModel;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -22,6 +26,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
@@ -94,26 +99,15 @@ public class GUI {
 
 		ttp = new TimeTablePanel();
 		ttp.setTimeTable(timeTable);
-		JScrollPane scrollPane = new JScrollPane(ttp);
-		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-		scrollPane.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
+		JScrollPane ttpSP = new JScrollPane(ttp);
+		ttpSP.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		ttpSP.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		ttpSP.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
 
 		//reasoning behind minimum width and height
 		//100px for the times on the side * 120px width for each day.
 		//40px on top for day of the week * 20px down for each 30 minutes (this may be to small)
 		ttp.setPreferredSize(new Dimension(940, 540));
-
-		JPanel options = new JPanel();
-		JScrollPane optionsSP = new JScrollPane(options);
-		optionsSP.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		optionsSP.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-		optionsSP.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
-		options.setPreferredSize(new Dimension(250, 540));
-
-		options.setLayout(new BoxLayout(options, BoxLayout.Y_AXIS));
-
-
 
 
 		//handles load file button
@@ -198,28 +192,28 @@ public class GUI {
 
 		//JLabel lbSearch = new JLabel("Search");
 		JButton btnSearch = new JButton("Search");
-		tfSearch = new JTextField(15);
-		tfSearch.addActionListener(new ActionListener(){
+		btnSearch.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String searchString = tfSearch.getText(); //ss = serchString
-				System.out.println(tfSearch.getText());
-				DefaultListModel<String> searchListModel = new DefaultListModel<String>();
-
-				String courseListItem;
-				boolean isValid;
-				for(int i = 0; i < courseListModel.getSize(); i++) {
-					courseListItem = courseListModel.get(i);
-					isValid = superSearch(searchString, courseListItem);
-					if(isValid) {
-						searchListModel.addElement(courseListModel.get(i));
-					}
-				}
-				courseList.setModel(searchListModel);
+				search();
 			}
 		});
 
-		JPanel searchP = new JPanel(new GridLayout(1,2));
+		tfSearch = new JTextField(11);
+
+		tfSearch.getDocument().addDocumentListener(new DocumentListener() {
+		public void changedUpdate(DocumentEvent e){
+			//nothing :D
+		}
+		public void insertUpdate(DocumentEvent e){
+			search();
+		}
+		public void removeUpdate(DocumentEvent e){
+			search();
+		}
+});
+
+		JPanel searchP = new JPanel(new FlowLayout());
 		searchP.add(btnSearch);
 		searchP.add(tfSearch);
 		searchP.setMaximumSize(new Dimension(250, 30));
@@ -278,6 +272,7 @@ public class GUI {
 		filterP.setMaximumSize(new Dimension(250, 35));
 
 		courseList = new JList<String>(arrCourses);
+		//courseList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		JScrollPane courseListSP = new JScrollPane();
 		courseListSP.getViewport().add(courseList);
 		courseListSP.setPreferredSize(new Dimension(250, 200));
@@ -288,12 +283,21 @@ public class GUI {
 		JButton btnAdd = new JButton("Add Course");
 		btnAdd.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
-				if(fileLoaded){
-					for(int i = 0; i < timeTableListModel.size(); i++){
-						if(timeTableListModel.getElementAt(i).equals(courseList.getSelectedValue()))
-							return;
+				ArrayList<String> addList = (ArrayList) courseList.getSelectedValuesList();
+				if(fileLoaded) {
+					boolean shouldAdd;
+					for(int i = 0; i < addList.size(); i++){
+						shouldAdd = true;
+						for(int j = 0; j < timeTableListModel.size(); j++){
+							if(timeTableListModel.getElementAt(j).equals(addList.get(i))){
+								shouldAdd = false;
+								break;
+							}
+						}
+						if(shouldAdd) {
+							timeTableListModel.addElement(addList.get(i));
+						}
 					}
-					timeTableListModel.addElement(courseList.getSelectedValue());
 					timeTableList.setModel(timeTableListModel);
 				}
 			}
@@ -319,7 +323,12 @@ public class GUI {
 		JButton btnDel = new JButton("Del Course");
 		btnDel.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
-				timeTableListModel.removeElement(timeTableList.getSelectedValue());
+				int[] delList = timeTableList.getSelectedIndices();
+				int fkBugs = 0;
+				for(int i = 0; i < delList.length; i++){
+					timeTableListModel.removeElementAt(delList[i]-fkBugs);
+					fkBugs++;
+				}
 				timeTableList.setModel(timeTableListModel);
 			}
 		});
@@ -336,52 +345,82 @@ public class GUI {
 		delP.add(btnDelAll);
 		delP.setMaximumSize(new Dimension(250, 35));
 
-		/*JPanel editP = new JPanel(new BorderLayout());
-		editP.add(btnAdd, BorderLayout.NORTH);
-		editP.add(btnDel, BorderLayout.CENTER);
-		editP.setMaximumSize(new Dimension(250, 60));
-		*/
+
 		String[] emptyDisplay = {""};
 		timeTableList = new JList<String>(emptyDisplay);
+		//timeTableList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		JScrollPane timeTableListSP = new JScrollPane();
 		timeTableListSP.getViewport().add(timeTableList);
 		timeTableListSP.setPreferredSize(new Dimension(250, 200));
 
 
 		taConflictBox = new JTextArea();
-		JScrollPane conflictBoxSP = new JScrollPane(options);
+		taConflictBox.setEditable(false);
+		JScrollPane conflictBoxSP = new JScrollPane();
 		conflictBoxSP.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		conflictBoxSP.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		conflictBoxSP.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
 		taConflictBox.setMinimumSize(new Dimension(250, 100));
 		conflictBoxSP.setPreferredSize(new Dimension(250, 100));
-		taConflictBox.setEditable(false);
 		conflictBoxSP.getViewport().add(taConflictBox);
 
+		JSplitPane ttpConflictBoxSplitPane =
+						new JSplitPane(JSplitPane.VERTICAL_SPLIT, ttpSP, conflictBoxSP);
+		ttpConflictBoxSplitPane.setOneTouchExpandable(true);
+		ttpConflictBoxSplitPane.setDividerLocation(560);
 
 
+		JPanel optionsTopP = new JPanel();
+		optionsTopP.setPreferredSize(new Dimension(250, 400));
+		optionsTopP.setLayout(new BoxLayout(optionsTopP, BoxLayout.Y_AXIS));
+		optionsTopP.add(loadFile);
+		optionsTopP.add(filterP);
+		optionsTopP.add(searchP);
+		optionsTopP.add(courseListSP);
+		optionsTopP.add(addP);
 
-		options.add(loadFile);
-		options.add(filterP);
-		options.add(searchP);
-		options.add(courseListSP);
-		options.add(addP);
-		options.add(timeTableListSP);
-		options.add(delP);
-		options.add(makeTimeTable);
+		JPanel optionsBottomP = new JPanel();
+		optionsBottomP.setPreferredSize(new Dimension(250, 240));
+		optionsBottomP.setLayout(new BoxLayout(optionsBottomP, BoxLayout.Y_AXIS));
+		optionsBottomP.add(timeTableListSP);
+		optionsBottomP.add(delP);
+		optionsBottomP.add(makeTimeTable);
 
-		frame.add(options, BorderLayout.WEST);
-		frame.add(scrollPane, BorderLayout.CENTER);
-		frame.add(conflictBoxSP, BorderLayout.SOUTH);
+		JSplitPane optionsSplitPane =
+				new JSplitPane(JSplitPane.VERTICAL_SPLIT, optionsTopP, optionsBottomP);
+		optionsSplitPane.setOneTouchExpandable(true);
+		optionsSplitPane.setDividerLocation(420);
+
+		frame.add(optionsSplitPane, BorderLayout.WEST);
+		frame.add(ttpConflictBoxSplitPane, BorderLayout.CENTER);
+		//frame.add(conflictBoxSP, BorderLayout.SOUTH);
 		frame.pack();
 		frame.setVisible(true);
 	}
 
+	private static void search(){
+		String searchString = tfSearch.getText(); //ss = serchString
+		//System.out.println(tfSearch.getText());
+		DefaultListModel<String> searchListModel = new DefaultListModel<String>();
+
+		String courseListItem;
+		boolean isValid;
+		for(int i = 0; i < courseListModel.getSize(); i++) {
+			courseListItem = courseListModel.get(i);
+			isValid = superSearch(searchString, courseListItem);
+			if(isValid) {
+				searchListModel.addElement(courseListModel.get(i));
+			}
+		}
+		courseList.setModel(searchListModel);
+	}
 
 	private static boolean superSearch(String ss, String sts) {
 		//ss is search string and sts is string to search
 		boolean sucsess = false;
 		boolean smallSuc;
+		ss = ss.toLowerCase();
+		sts = sts.toLowerCase();
 		for(int i = 0; i < sts.length()-ss.length()+1; i++) {
 			smallSuc = true;
 			for(int j = 0; j < ss.length(); j++) {
