@@ -47,7 +47,8 @@ class DataReader {
         //new buffered reader
 	      BufferedReader fileIn = new BufferedReader(new FileReader(file));
 	      String[] lineData;//an array for each line in the file
-	      String line = fileIn.readLine();//sets line to the first line in the file
+	      String line = fileIn.readLine();
+        //sets line to the first line in the file
 	      while(line != null) {//while there are still lines left in the file
 	        lineData = new String[13];//there are 13 items in the csf file
           //initalizes the lineData as ""

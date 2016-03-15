@@ -126,21 +126,26 @@ public class GUI {
 
 				if (result == JFileChooser.APPROVE_OPTION){
 				    inFile = fileChooser.getSelectedFile();
-				    try {
-				    	DataReader dr = new DataReader(inFile);
-				    	dr.loadData();
-				    	dr.makeCourseArray();
-				    	courses = dr.getCourseArrayList();
-				    	cm = new CourseManager(courses);
+						if(inFile.getName().lastIndexOf(".") != -1 && inFile.getName().lastIndexOf(".") != 0){
+                  if(inFile.getName().substring(inFile.getName().lastIndexOf(".")+1).equals("csv")){
 
-				    	displayAllCourses();
+						    try {
+						    	DataReader dr = new DataReader(inFile);
+						    	dr.loadData();
+						    	dr.makeCourseArray();
+						    	courses = dr.getCourseArrayList();
+						    	cm = new CourseManager(courses);
 
-				    	fileLoaded = true;
+						    	displayAllCourses();
 
-					} catch (Exception e) {
-						System.out.println("There is a problem with the file.");
-						e.printStackTrace();
-					}
+						    	fileLoaded = true;
+
+							} catch (Exception e) {
+								System.out.println("There is a problem with the file.");
+								e.printStackTrace();
+							}//CATCH
+						}//IF
+					}//if
 				}
 			}
 		});
