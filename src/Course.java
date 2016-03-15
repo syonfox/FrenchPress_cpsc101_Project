@@ -6,9 +6,13 @@ public class Course {
 	private String courseID;
 
 	private String componetID;
+	private String subject;
+	private int level;
+		
 
 	private CourseDate date;
 	private Time startTime;
+	
 
 	private Location location;
 	private String professorName;
@@ -85,8 +89,18 @@ public class Course {
    public boolean getIsForced(){
       return true;
    }
-
-
+   public void setSubject(String s){
+	   this.subject=s;
+   }
+   public String getSubject(){
+	   return subject;
+   }
+   public void setLevel(int l){
+	   this.level = l;
+   }
+   public int getLevel(){
+	   return level;
+   }
 	public boolean compareDays(Course other){
 		for(int i = 0; i < daysOfWeek.size(); i++){
 	    for(int j = 0; j < other.getDaysOfWeek().size(); j++){
@@ -132,6 +146,7 @@ public class Course {
     		return false;
 
     }
+   
 
     public String toString(){
     	String days = "";
