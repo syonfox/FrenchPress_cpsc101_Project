@@ -53,6 +53,8 @@ public class GUI {
 	private static TimeTablePanel ttp;
 	private static ArrayList<Course> courses;
 
+	private static JLabel lbStatus;
+
 	private static JComboBox cbSubject;
 	private static JComboBox cbLevel;
 	private static JComboBox cbLocation;
@@ -108,7 +110,7 @@ public class GUI {
 		//reasoning behind minimum width and height
 		//100px for the times on the side * 120px width for each day.
 		//40px on top for day of the week * 20px down for each 30 minutes (this may be to small)
-		ttp.setPreferredSize(new Dimension(940, 540));
+		ttp.setPreferredSize(new Dimension(940, 580));
 
 
 		//handles load file button
@@ -155,6 +157,10 @@ public class GUI {
 		loadFile.setMaximumSize(new Dimension(250, 30));
 
 
+		lbStatus = new JLabel("Heres a label");
+		JPanel statusP = new JPanel(new FlowLayout());
+		statusP.setMaximumSize(new Dimension(250, 30));
+		statusP.add(lbStatus);
 
 
 		//Make Time Table button
@@ -397,6 +403,7 @@ public class GUI {
 		optionsTopP.setPreferredSize(new Dimension(250, 400));
 		optionsTopP.setLayout(new BoxLayout(optionsTopP, BoxLayout.Y_AXIS));
 		optionsTopP.add(loadFile);
+		optionsTopP.add(statusP);
 		optionsTopP.add(filterP);
 		optionsTopP.add(searchP);
 		optionsTopP.add(courseListSP);

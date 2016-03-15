@@ -110,12 +110,18 @@ public class TimeTable {
           case "Friday":
             days[j]=4;
             break;
+          case "Saturday":
+            days[j]=5;
+            break;
+          case "Sunday":
+            days[j]=6;
+            break;
         }
       }
       st = tempC.getStartTime();
       intst = (st.getHours()*2 + st.getMinutes()/30) - 16;
       duration = tempC.getDuration()/30;
-      displayString = tempC.getCouseID() +"-"+tempC.getComponetID()+" "
+      displayString = tempC.getCouseID() +"-"+tempC.getComponetID().substring(0, 2)+" "
                       + tempC.getLocation().getRoomNumber();
       tempCDI = new CourseDrawInfo(hasConflict[i], days, intst, duration, displayString);
       courseDI.add(tempCDI);

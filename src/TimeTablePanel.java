@@ -24,20 +24,22 @@ public class TimeTablePanel extends JPanel {
     int height = (int) getSize().getHeight();//height of the TimeTable Pane
     int width = (int) getSize().getWidth();//width of the time table pane
     int timeW = 100;  //The width of the Time box (on the left)
-    calTemp = (height-40)/26;
+    calTemp = (height-40)/28;
     int timeH = (int) calTemp;  //The height of the Time box (on the left)
-    calTemp = (width-100)/5;
+    calTemp = (width-100)/7;
     int dayW = (int) calTemp; //The Width of the Day Box (top)
     int dayH = 40; //The Hight of the Day boxes (top)
 
     //the days of the week;
-    String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
+    String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday",
+                     "Saturday", "Sunday"};
     //all of the times to display
     String[] times = {" 8:00am", " 8:30am", " 9:00am", " 9:30am", "10:00am", "10:30am",
                       "11:00am", "11:30am", "12:00am", "12:30am", " 1:00pm",
                       " 1:30pm", " 2:00pm", " 2:30pm", " 3:00pm", " 3:30pm",
                       " 4:00pm", " 4:30pm", " 5:00pm", " 5:30pm", " 6:00pm",
                       " 6:30pm", " 7:00pm", " 7:30pm", " 8:00pm", " 8:30pm",
+                      " 9:00pm"," 9:30pm"
                       };
 
 
@@ -82,7 +84,7 @@ public class TimeTablePanel extends JPanel {
     //draw the days of the week across the top;
     g2d.setFont(bigFont);
     isEvenLine = false;
-    for(int i = 0, x = timeW, y = 0; i <5; i++) {
+    for(int i = 0, x = timeW, y = 0; i <days.length; i++) {
 
       if(isEvenLine) {
         g2d.setColor(evenColorDay);
@@ -121,7 +123,9 @@ public class TimeTablePanel extends JPanel {
             //makes a black borader around the rectangle
             g2d.drawRect(timeW+(dayW*cdi.getDay(i)), dayH+(timeH*cdi.getStartTime()) ,dayW ,timeH*cdi.getDuration() );
             //Draws the String for the cours ontop of the rectangle
-            g2d.drawString(cdi.getDisplayString(), timeW+(dayW*cdi.getDay(i))+10, dayH+(timeH*cdi.getStartTime()+15) );
+            g2d.drawString(cdi.getDisplayString().split(" ")[0], timeW+(dayW*cdi.getDay(i))+10, dayH+(timeH*cdi.getStartTime()+15) );
+            g2d.drawString(cdi.getDisplayString().split(" ")[1], timeW+(dayW*cdi.getDay(i))+10, dayH+timeH+(timeH*cdi.getStartTime()+15) );
+
         }
         //advance to the next course
         index++;
