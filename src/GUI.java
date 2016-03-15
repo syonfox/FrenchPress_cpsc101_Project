@@ -42,7 +42,7 @@ public class GUI {
 	private static JList<String> courseList;
 	private static JList<String> timeTableList;
 	private static DefaultListModel<String> timeTableListModel = new DefaultListModel<String>();
-	private static DefaultListModel<String> courseListModel = new DefaultListModel<String>();
+	private static DefaultListModel<String> courseListModel = new DefaultListModel<String>(); //this is for the upper list
 
 	private static final int WIDTH = 400;
 	private static final int HEIGHT = 400;
@@ -53,6 +53,7 @@ public class GUI {
 	private static JComboBox cbLevel;
 	private static JComboBox cbLocation;
 	private static JComboBox cbTeacher;
+	private static String[] levels = {"All levels", "1", "2", "3", "4", "5", "6", "7"};
 
 	private static JTextField tfSearch;
 
@@ -155,6 +156,7 @@ public class GUI {
 				    	dr.makeCourseArray();
 				    	courses = dr.getCourseArrayList();
 				    	cm = new CourseManager(courses);
+/*<<<<<<< HEAD
 				    	courseListModel = new DefaultListModel<String>();
 				    	for(int i = 0; i < courses.size(); i++)
 				    		courseListModel.addElement(
@@ -165,6 +167,9 @@ public class GUI {
 							);
 
 				    	courseList.setModel(courseListModel);
+=======*/
+				    	displayAllCourses();
+
 
 					} catch (Exception e) {
 						System.out.println("There is a problem with the file.");
@@ -182,6 +187,7 @@ public class GUI {
 
 
 		//Make Time Table button
+		//DISPLAYS ALL SELECTED COURSES
 		JButton btnMakeTimeTable = new JButton("Display Selected Courses");
 		btnMakeTimeTable.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
@@ -190,6 +196,7 @@ public class GUI {
 				for(int i = 0; i < timeTableListModel.getSize(); i++){
 					selectedCourses.add(timeTableListModel.getElementAt(i));
 				}
+
 
 				ArrayList<Course> c = cm.toCourseArrayList(selectedCourses);
 
@@ -245,24 +252,52 @@ public class GUI {
 
 		//you have to yous the same type of things as for the JList insted of a string array.
 		//Start of the Filter Box
-		String[] petStrings = { "Bird", "Cat", "Dog", "Rabbit", "Pig" };
-		cbSubject = new JComboBox(petStrings);
+		String[] subjectStrings = {"All", "ANTH", "ASTR", "BCMB", "BIOL", "CHEM", "COMM", "CPSC", "ECON", "ENGL", "ENGR", "ENPL",
+				"ENSC", "ENVS", "FNST", "FSTY", "GEOG", "HHSC", "HIST", "IASK", "INTS", "MATH", "MCPM", "NREM", "NRES",
+				"NURS", "ORTM", "PHIL", "PHYS", "POLS", "PSYC", "SOCW", "STAT", "WMST"};
+		//String[] levels = {"All levels", "1", "2", "3", "4", "5", "6", "7"};
+		cbSubject = new JComboBox(subjectStrings);
 		cbSubject.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(cbSubject.getSelectedItem());
+				String s = cbSubject.getSelectedItem().toString();
+				displaySubjects(s);
+				//cbLevel.setSelectedItem(levels[0]);
+				setComboBoxLevel(0);
 			}
+
 		});
 
-		cbLevel = new JComboBox(petStrings);
+
+
+		cbLevel = new JComboBox(levels);
 		cbLevel.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(cbLevel.getSelectedItem());
+				String s = cbLevel.getSelectedItem().toString();
+
+				if(s.equals("All levels")){
+					displaySubjects(cbSubject.getSelectedItem().toString());
+				}
+				else{
+					displaySubjects(cbSubject.getSelectedItem().toString());
+					ArrayList<String> displayedCourses = getListContent();
+					ArrayList<String> toDisplay = new ArrayList<String>();
+					courseListModel.removeAllElements();
+					for(int i=0;i<displayedCourses.size();i++){
+						if(displayedCourses.get(i).substring(4, 5).equals(s))
+							toDisplay.add(displayedCourses.get(i));
+					}
+					for(int i = 0; i < toDisplay.size(); i++)
+						courseListModel.addElement(toDisplay.get(i));
+
+
+					courseList.setModel(courseListModel);
+				}
 			}
 		});
 
-		cbLocation = new JComboBox(petStrings);
+		cbLocation = new JComboBox(subjectStrings);
 		cbLocation.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -270,7 +305,7 @@ public class GUI {
 			}
 		});
 
-		cbTeacher = new JComboBox(petStrings);
+		cbTeacher = new JComboBox(subjectStrings);
 		cbTeacher.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -305,7 +340,6 @@ public class GUI {
 		btnDel.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				timeTableListModel.removeElement(timeTableList.getSelectedValue());
-				//timeTableListModel.addElement(courseList.getSelectedValue());
 				timeTableList.setModel(timeTableListModel);
 			}
 		});
@@ -351,6 +385,7 @@ public class GUI {
 		frame.setVisible(true);
 	}
 
+
 	private static boolean superSearch(String ss, String sts) {
 		//ss is search string and sts is string to search
 		boolean sucsess = false;
@@ -369,5 +404,50 @@ public class GUI {
 			}
 		}
 		return sucsess;
+	}
+
+
+
+	public static void displayAllCourses(){
+		courseListModel.removeAllElements();
+		for(int i = 0; i < courses.size(); i++)
+			courseListModel.addElement(
+						courses.get(i).getCouseID() + "-"
+			 		+ courses.get(i).getComponetID() + " "
+			 		+ courses.get(i).getLocation().getRoomNumber() + " "
+			 		+ courses.get(i).getProfessorName()
+			);
+
+    	courseList.setModel(courseListModel);
+	}
+
+	public static ArrayList<String> getListContent(){
+		ArrayList<String> selectedCourses = new ArrayList<String>();
+
+		for(int i = 0; i < courseListModel.getSize(); i++){
+			selectedCourses.add(courseListModel.getElementAt(i));
+		}
+
+		return selectedCourses;
+	}
+
+	public static void displaySubjects(String s){
+		if(s.equals("All"))
+			displayAllCourses();
+		else{
+			ArrayList<String> arrSubject = new ArrayList<String>();
+
+			arrSubject = cm.getSubjectCoursesArrayList(s);
+
+			courseListModel.removeAllElements();
+			for(int i = 0; i < arrSubject.size(); i++)
+				courseListModel.addElement(arrSubject.get(i));
+			courseList.setModel(courseListModel);
+		}
+
+	}
+
+	private static void setComboBoxLevel(int l) {
+		cbLevel.setSelectedItem(levels[l]);
 	}
 }

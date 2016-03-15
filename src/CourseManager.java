@@ -19,4 +19,15 @@ public class CourseManager {
 		}
 		return selectedCourses;
 	}
+	
+	public ArrayList<String> getSubjectCoursesArrayList(String s){
+		ArrayList<String> result = new ArrayList<String>();
+		
+		for(int i = 0; i < courses.size(); i++){
+			if(courses.get(i).getCouseID().substring(0, 4).equals(s))
+				result.add(courses.get(i).getCouseID() + "-" + courses.get(i).getComponetID() + " " + courses.get(i).getLocation().getRoomNumber() + " " + courses.get(i).getProfessorName());
+		}
+		
+		return result;
+	}
 }
