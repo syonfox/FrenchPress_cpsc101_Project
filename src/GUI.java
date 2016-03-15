@@ -3,7 +3,7 @@
 * @author Kier Lindsay
 * @since 2016-03-06
 **/
-
+import java.awt.GridLayout;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Dimension;
@@ -24,6 +24,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.JViewport;
 import javax.swing.UIManager;
@@ -46,6 +47,12 @@ public class GUI {
 	private static final int HEIGHT = 400;
 	private static TimeTablePanel ttp;
 	private static ArrayList<Course> courses;
+
+	private static JComboBox cbSubject;
+	private static JComboBox cbLevel;
+	private static JComboBox cbLocation;
+	private static JComboBox cbTeacher;
+
 	private static TimeTable timeTable;
 	private static JTextArea taConflictBox;
 	public static void main(String args[]){
@@ -54,7 +61,6 @@ public class GUI {
 				"com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
 
 		System.out.println(UIManager.getSystemLookAndFeelClassName());
-
 		try {
             // Set cross-platform Java L&F (also called "Metal")
         UIManager.setLookAndFeel(
@@ -200,6 +206,8 @@ public class GUI {
 		makeTimeTable.add(btnMakeTimeTable,BorderLayout.CENTER);
 		makeTimeTable.setMaximumSize(new Dimension(250, 30));
 
+
+
 		JLabel lbSearch = new JLabel("Search ");
 		JTextField tfSearch = new JTextField(20);
 
@@ -208,14 +216,52 @@ public class GUI {
 		search.add(tfSearch, BorderLayout.EAST);
 		search.setMaximumSize(new Dimension(250, 30));
 
+		//you have to yous the same type of things as for the JList insted of a string array.
+		//Start of the Filter Box
+		String[] petStrings = { "Bird", "Cat", "Dog", "Rabbit", "Pig" };
+		cbSubject = new JComboBox(petStrings);
+		cbSubject.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(cbSubject.getSelectedItem());
+			}
+		});
+
+		cbLevel = new JComboBox(petStrings);
+		cbLevel.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(cbLevel.getSelectedItem());
+			}
+		});
+
+		cbLocation = new JComboBox(petStrings);
+		cbLocation.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(cbLocation.getSelectedItem());
+			}
+		});
+
+		cbTeacher = new JComboBox(petStrings);
+		cbTeacher.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(cbTeacher.getSelectedItem());
+			}
+		});
+
+
+		JPanel filterP = new JPanel(new GridLayout(2, 2));
+		filterP.add(cbSubject);
+		filterP.add(cbLevel);
+		filterP.add(cbLocation);
+		filterP.add(cbTeacher);
+
 		courseList = new JList<String>(arrCourses);
 		JScrollPane courseListSP = new JScrollPane();
 		courseListSP.getViewport().add(courseList);
 		courseListSP.setPreferredSize(new Dimension(250, 200));
-
-
-
-
 
 
 
@@ -264,6 +310,7 @@ public class GUI {
 
 
 		options.add(loadFile);
+		options.add(filterP);
 		options.add(search);
 		options.add(courseListSP);
 		options.add(editP);
