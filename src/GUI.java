@@ -5,6 +5,7 @@
 **/
 
 //import seaglasslookandfeel;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -141,6 +142,8 @@ public class GUI {
 						    	displayAllCourses();
 
 						    	fileLoaded = true;
+                         lbStatus.setText("File Loaded: " + inFile.getName());
+                        lbStatus.setForeground(Color.GREEN);
 
 							} catch (Exception e) {
 								System.out.println("There is a problem with the file.");
@@ -157,8 +160,9 @@ public class GUI {
 		loadFile.setMaximumSize(new Dimension(250, 30));
 
 
-		lbStatus = new JLabel("Heres a label");
-		JPanel statusP = new JPanel(new FlowLayout());
+		lbStatus = new JLabel("File Not Loaded");
+		lbStatus.setForeground(Color.RED);
+      JPanel statusP = new JPanel(new FlowLayout());
 		statusP.setMaximumSize(new Dimension(250, 30));
 		statusP.add(lbStatus);
 
