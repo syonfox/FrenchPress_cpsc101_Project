@@ -123,8 +123,12 @@ public class TimeTablePanel extends JPanel {
             //makes a black borader around the rectangle
             g2d.drawRect(timeW+(dayW*cdi.getDay(i)), dayH+(timeH*cdi.getStartTime()) ,dayW ,timeH*cdi.getDuration() );
             //Draws the String for the cours ontop of the rectangle
-            g2d.drawString(cdi.getDisplayString().split(" ")[0], timeW+(dayW*cdi.getDay(i))+10, dayH+(timeH*cdi.getStartTime()+15) );
-            g2d.drawString(cdi.getDisplayString().split(" ")[1], timeW+(dayW*cdi.getDay(i))+10, dayH+timeH+(timeH*cdi.getStartTime()+15) );
+            for(int j = 0; j < cdi.getDisplayString().split(" ").length; j++)
+            g2d.drawString(cdi.getDisplayString().split(" ")[j],
+                          timeW+(dayW*cdi.getDay(i))+10,
+                          dayH+(timeH*cdi.getStartTime()+15)+(j*timeH)
+            );
+            //g2d.drawString(cdi.getDisplayString().split(" ")[1], timeW+(dayW*cdi.getDay(i))+10, dayH+timeH+(timeH*cdi.getStartTime()+15) );
         }
         //advance to the next course
         index++;
