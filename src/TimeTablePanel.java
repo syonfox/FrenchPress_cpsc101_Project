@@ -125,7 +125,6 @@ public class TimeTablePanel extends JPanel {
             //Draws the String for the cours ontop of the rectangle
             g2d.drawString(cdi.getDisplayString().split(" ")[0], timeW+(dayW*cdi.getDay(i))+10, dayH+(timeH*cdi.getStartTime()+15) );
             g2d.drawString(cdi.getDisplayString().split(" ")[1], timeW+(dayW*cdi.getDay(i))+10, dayH+timeH+(timeH*cdi.getStartTime()+15) );
-
         }
         //advance to the next course
         index++;
