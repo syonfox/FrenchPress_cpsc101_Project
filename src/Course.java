@@ -25,7 +25,7 @@ public class Course {
 	private boolean isForced=false;
 
 	private ArrayList<String> daysOfWeek;
-        /**information getter and setter methods**/
+        /**information getter and setter methods*/
 	public Course(){
 		daysOfWeek = new ArrayList<String>();
 	}
@@ -114,7 +114,7 @@ public class Course {
 	    return false;
 	  }
 
-   /**check whether two courses are conflicted**/
+   /**check whether two courses are conflicted*/
 	 @SuppressWarnings("deprecation")
 	public boolean conflictsWith(Course another){
 		 if(compareDays(another)) {
@@ -142,7 +142,7 @@ public class Course {
 		return false;
 	}
 
-	/**check two courses whether are same**/
+	/**check two courses whether are same*/
 	public boolean equals(Course course){
     		if(getLocation().equals(course.getLocation()) && getProfessorName().equals(course.getProfessorName()))
     		{
