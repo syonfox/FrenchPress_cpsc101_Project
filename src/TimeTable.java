@@ -1,23 +1,23 @@
-/**
-* @author Jiangtao Qiu
-* @author Rodrigo Nicoletti
-* @author Kier Lindsay
-**/
-
-/** 
-*The TimeTable class is a class meant to interact with both courses and the graphical interface.
-*It will take in a list of courses selected through the graphical interface by the user.Â
-*After obtaining a list of courses it will be able to check for any conflicts and output information in a format ready to be displayed by the graphical interface.
-**/
-
+/** The Schedule classÂ is a class meant to interact with both courses and the graphical interface.Â 
+*It will take in a list of courses selected through the graphical interface by the user.Â 
+*After obtaining a list of copurses it will be able to check for any conflicts and output information in a format ready to be displayed by the graphical interface.
+*@author Kier Lindsay
+*@author Rodrigo Nicoletti
+*@author JiangTao Qiu
+*@since  2016-03-16
+*/
 import java.util.ArrayList;
 import java.sql.Time;
 
 public class TimeTable {
 
+  /**The neame of a time table*/
   private String timeTableName;
+  /**A list to store all of the courses in the time table*/
   private ArrayList<Course> courses;
+  /***/
   private ArrayList<CourseDrawInfo> courseDI;
+  //private int numberOfCourses;
   private ArrayList<String> conficts;
   private boolean[] hasConflict;
 
@@ -25,10 +25,16 @@ public class TimeTable {
   public TimeTable(String name) {
     timeTableName = name;
     courses = new ArrayList<Course>();
+    //int numberOfCourses = 0;
   }
   public TimeTable(String name , ArrayList<Course> initalCourses) {
     timeTableName = name;
     courses = initalCourses;
+
+    for(int i = 0; i < courses.size(); i++){
+    //  System.out.println(courses.get(i).toString());
+    }
+    //int numberOfCourses = cou;
   }
 
   public String[] getConflicts() {
@@ -127,9 +133,7 @@ public class TimeTable {
     //System.out.println("hasNext:"+i+"size:"+courseDI.size()+(i < courseDI.size()));
     return (i < courseDI.size());
   }
-  
   public CourseDrawInfo getCourseDrawInfo(int i) {
     return courseDI.get(i);
   }
-
 }
