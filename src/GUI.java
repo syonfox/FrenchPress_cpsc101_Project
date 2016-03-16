@@ -55,6 +55,7 @@ public class GUI {
 	private static ArrayList<Course> courses;
 
 	private static JLabel lbStatus;
+   private static JLabel lbFilter;
 
 	private static JComboBox cbSubject;
 	private static JComboBox cbLevel;
@@ -165,6 +166,12 @@ public class GUI {
       JPanel statusP = new JPanel(new FlowLayout());
 		statusP.setMaximumSize(new Dimension(250, 30));
 		statusP.add(lbStatus);
+      
+      lbFilter = new JLabel("Filters");
+      JPanel filterLabelP = new JPanel(new FlowLayout());
+		filterLabelP.setMaximumSize(new Dimension(250, 30));
+		filterLabelP.add(lbFilter);
+      
 
 
 		//Make Time Table button
@@ -408,6 +415,7 @@ public class GUI {
 		optionsTopP.setLayout(new BoxLayout(optionsTopP, BoxLayout.Y_AXIS));
 		optionsTopP.add(loadFile);
 		optionsTopP.add(statusP);
+      optionsTopP.add(filterLabelP);
 		optionsTopP.add(filterP);
 		optionsTopP.add(searchP);
 		optionsTopP.add(courseListSP);
