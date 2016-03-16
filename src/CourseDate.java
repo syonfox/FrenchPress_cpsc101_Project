@@ -1,3 +1,9 @@
+/**
+* @author Jiangtao Qiu
+* @author Rodrigo Nicoletti
+* @author Kier Lindsay
+**/
+
 public class CourseDate {
 
 	Date startDate;
@@ -14,10 +20,16 @@ public class CourseDate {
 		return false;
 	}
 	
+   /**
+	 * @return start date
+	 */
 	public Date getStartDate(){
 		return startDate;
 	}
 	
+   /**
+	 * @return end date
+	 */
 	public Date getEndDate(){
 		return endDate;
 	}

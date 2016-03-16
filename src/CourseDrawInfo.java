@@ -1,7 +1,9 @@
-/**This will have the info TimeTablePanleNeeds to draw a course
-*@author Kier Lindsay
-*@date 2016-03
-*/
+/**
+* @author Jiangtao Qiu
+* @author Rodrigo Nicoletti
+* @author Kier Lindsay
+**/
+
 import java.awt.Color;
 
 public class CourseDrawInfo {

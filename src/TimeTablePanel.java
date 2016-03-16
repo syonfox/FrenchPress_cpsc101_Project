@@ -1,7 +1,8 @@
-/**This is a panle desigend to be placed in the gui and contain a TimeTable
- *@author Kier Lindsay
- *
- */
+/**
+* @author Jiangtao Qiu
+* @author Rodrigo Nicoletti
+* @author Kier Lindsay
+**/
 
 import javax.swing.JPanel;
 import java.awt.Color;

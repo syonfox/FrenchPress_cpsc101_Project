@@ -1,3 +1,9 @@
+/**
+* @author Jiangtao Qiu
+* @author Rodrigo Nicoletti
+* @author Kier Lindsay
+**/
+
 public class Date {
 	int day;
 	int month;
@@ -37,14 +43,26 @@ public class Date {
 		return day;
 	}
 	
+   /**
+	 * Sets the year
+	 * @param year
+	 */
 	private void setYear(int y) {
 		this.year = y;
 	}
 
+   /**
+	 * Sets the month
+	 * @param month
+	 */
 	private void setMonth(int m) {
 		this.month = m;
 	}
 
+   /**
+	 * Sets the day
+	 * @param day
+	 */
 	private void setDay(int d) {
 		this.day = d;
 	}

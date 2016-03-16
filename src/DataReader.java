@@ -1,9 +1,8 @@
 /**
-*date: January 2016
+* @author Jiangtao Qiu
+* @author Rodrigo Nicoletti
 * @author Kier Lindsay
 **/
-
-
 
 import java.util.ArrayList;
 import java.util.List;

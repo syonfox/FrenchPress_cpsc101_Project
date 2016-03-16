@@ -1,3 +1,8 @@
+/**
+* @author Jiangtao Qiu
+* @author Rodrigo Nicoletti
+* @author Kier Lindsay
+**/
 
 public class Location {
 	private String buildingID;
@@ -22,6 +27,10 @@ public class Location {
 		return buildingID;
 	}
 
+   /**
+	 * Sets building ID
+	 * @param building id
+	 */
 	private void setBuildingID(String buildingID) {
 		this.buildingID = buildingID;
 	}
@@ -30,6 +39,10 @@ public class Location {
 		return roomNumber;
 	}
 
+   /**
+	 * Sets room number
+	 * @param room number
+	 */
 	private void setRoomNumber(String roomNumber) {
 		this.roomNumber = roomNumber;
 	}

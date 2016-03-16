@@ -4,7 +4,6 @@
 * @since 2016-03-06
 **/
 
-//import seaglasslookandfeel;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
@@ -19,7 +18,6 @@ import java.util.ArrayList;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.ListModel;
-//import javax.swing.ListSelectionModel;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -90,9 +88,6 @@ public class GUI {
 
 
 
-
-
-	//@SuppressWarnings({"rawtypes","unchecked"})
 	public static void guiManager(){
 		if(System.getProperty("os.name").equals("Linux")) {
 			try {
@@ -148,7 +143,6 @@ public class GUI {
 
 							} catch (Exception e) {
 								System.out.println("There is a problem with the file.");
-								//e.printStackTrace();
 							}//CATCH
 						}//IF
 					}//if
@@ -213,7 +207,6 @@ public class GUI {
 
 
 
-		//JLabel lbSearch = new JLabel("Search");
 		JButton btnSearch = new JButton("Search");
 		btnSearch.addActionListener(new ActionListener(){
 			@Override
@@ -246,7 +239,6 @@ public class GUI {
 		String[] subjectStrings = {"All", "ANTH", "ASTR", "BCMB", "BIOL", "CHEM", "COMM", "CPSC", "ECON", "ENGL", "ENGR", "ENPL",
 				"ENSC", "ENVS", "FNST", "FSTY", "GEOG", "HHSC", "HIST", "IASK", "INTS", "MATH", "MCPM", "NREM", "NRES",
 				"NURS", "ORTM", "PHIL", "PHYS", "POLS", "PSYC", "SOCW", "STAT", "WMST"};
-		//String[] levels = {"All levels", "1", "2", "3", "4", "5", "6", "7"};
 		cbSubject = new JComboBox(subjectStrings);
 		cbSubject.addActionListener(new ActionListener(){
 			@Override
@@ -295,7 +287,6 @@ public class GUI {
 		filterP.setMaximumSize(new Dimension(250, 35));
 
 		courseList = new JList<String>(arrCourses);
-		//courseList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		JScrollPane courseListSP = new JScrollPane();
 		courseListSP.getViewport().add(courseList);
 		courseListSP.setPreferredSize(new Dimension(250, 200));
@@ -332,7 +323,6 @@ public class GUI {
 		btnAddAll.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				if(fileLoaded) {
-				//timeTableListModel.addElement(courseList.getSelectedValue());
 					ListModel<String> tempModel = courseList.getModel();
 					boolean shouldAdd;
 					for(int i = 0; i < tempModel.getSize(); i++) {
@@ -387,7 +377,6 @@ public class GUI {
 
 		String[] emptyDisplay = {""};
 		timeTableList = new JList<String>(emptyDisplay);
-		//timeTableList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		JScrollPane timeTableListSP = new JScrollPane();
 		timeTableListSP.getViewport().add(timeTableList);
 		timeTableListSP.setPreferredSize(new Dimension(250, 560));
@@ -400,7 +389,6 @@ public class GUI {
 		conflictBoxSP.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		conflictBoxSP.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
 		taConflictBox.setMinimumSize(new Dimension(250, 100));
-		//conflictBoxSP.setMaximumSize(new Dimension(100000, 400));
 		conflictBoxSP.getViewport().add(taConflictBox);
 
 		JSplitPane ttpConflictBoxSplitPane =
@@ -435,14 +423,12 @@ public class GUI {
 		optionsSplitPane.setResizeWeight(.64d);
 		frame.add(optionsSplitPane, BorderLayout.WEST);
 		frame.add(ttpConflictBoxSplitPane, BorderLayout.CENTER);
-		//frame.add(conflictBoxSP, BorderLayout.SOUTH);
 		frame.pack();
 		frame.setVisible(true);
 	}
 
 	private static void search(){
 		String searchString = tfSearch.getText(); //ss = serchString
-		//System.out.println(tfSearch.getText());
 		DefaultListModel<String> searchListModel = new DefaultListModel<String>();
 
 		String courseListItem;
@@ -480,7 +466,9 @@ public class GUI {
 	}
 
 
-
+   /**
+         * Display all courses that are in the file in the top list
+         */
 	public static void displayAllCourses(){
 		courseListModel.removeAllElements();
 		for(int i = 0; i < courses.size(); i++)
@@ -493,7 +481,11 @@ public class GUI {
 
     	courseList.setModel(courseListModel);
 	}
-
+   
+   /**
+         * Puts the contents of the bottom list an in ArrayList
+         * @return list of contents
+         */
 	public static ArrayList<String> getListContent(){
 		ArrayList<String> selectedCourses = new ArrayList<String>();
 
@@ -504,6 +496,10 @@ public class GUI {
 		return selectedCourses;
 	}
 
+   /**
+         * Display all the courses that match the string
+         * @param subject name
+         */
 	public static void displaySubjects(String s){
 		if(s.equals("All"))
 			displayAllCourses();
